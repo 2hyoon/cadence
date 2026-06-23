@@ -37,7 +37,10 @@
     {
       "step": 4,
       "name": "app-shell-views",
-      "status": "pending"
+      "status": "completed",
+      "started_at": "2026-06-24T08:07:36+0900",
+      "summary": "ViewId ('today'|'upcoming'|'all'|'completed') + classify(todos,today)/dueStatus(dueDate,today) in lib/views.ts (pure, string-compare); AppShell feature in features/AppShell.tsx (getTodayString helper, empty-state onboarding, skeleton); Sidebar in components/Sidebar.tsx (desktop nav + mobile bottom tab bar); TodoProvider mounted in app/layout.tsx; 12 lib unit tests + 3 RTL shell tests all green.",
+      "completed_at": "2026-06-24T08:11:13+0900"
     },
     {
       "step": 5,
