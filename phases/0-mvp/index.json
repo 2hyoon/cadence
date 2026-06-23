@@ -29,7 +29,10 @@
     {
       "step": 3,
       "name": "store",
-      "status": "pending"
+      "status": "completed",
+      "started_at": "2026-06-24T08:04:57+0900",
+      "summary": "Pure reducer (actions: add/edit/toggle/delete/hydrate; delete cascades to subtasks by parentId) in store/reducer.ts; TodoProvider client component with client-only hydration and persist-on-change effects in store/TodoProvider.tsx; useTodos() hook throws outside provider; hydrated boolean exposed for skeleton UI; 13 reducer unit tests all green.",
+      "completed_at": "2026-06-24T08:07:36+0900"
     },
     {
       "step": 4,
