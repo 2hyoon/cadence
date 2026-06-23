@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { TodoProvider } from '../store/TodoProvider'
 
 export const metadata: Metadata = {
   title: 'Cadence',
@@ -13,7 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <TodoProvider>{children}</TodoProvider>
+      </body>
     </html>
   )
 }
