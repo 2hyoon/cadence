@@ -13,7 +13,10 @@
     {
       "step": 1,
       "name": "core-types",
-      "status": "pending"
+      "status": "completed",
+      "started_at": "2026-06-24T08:02:07+0900",
+      "summary": "Defined domain types (Priority, Tag, RecurrencePreset, RecurrenceRule, Todo, CompletionLogEntry, AppState) and type guards (isTodo, isAppState) in types/todo.ts; 23 guard unit tests all green.",
+      "completed_at": "2026-06-24T08:03:35+0900"
     },
     {
       "step": 2,
