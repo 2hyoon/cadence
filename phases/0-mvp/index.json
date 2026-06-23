@@ -45,7 +45,10 @@
     {
       "step": 5,
       "name": "todo-crud-ui",
-      "status": "pending"
+      "status": "error",
+      "started_at": "2026-06-24T08:11:13+0900",
+      "error_message": "[Failed after 3 attempts] Step did not update status",
+      "failed_at": "2026-06-24T08:11:17+0900"
     },
     {
       "step": 6,
