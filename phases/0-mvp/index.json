@@ -21,7 +21,10 @@
     {
       "step": 2,
       "name": "persistence",
-      "status": "pending"
+      "status": "completed",
+      "started_at": "2026-06-24T08:03:35+0900",
+      "summary": "Created persistence/storage.ts with STORAGE_KEY/STORAGE_VERSION envelope, loadState/saveState/emptyState; SSR-safe (typeof window guard), absorbs all errors (corrupt JSON, version mismatch, isAppState failure, quota-exceeded); localStorage mocked via globalThis in 10 unit tests.",
+      "completed_at": "2026-06-24T08:04:56+0900"
     },
     {
       "step": 3,
