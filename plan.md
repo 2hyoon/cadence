@@ -4,19 +4,22 @@
 
 ## ⏯️ 다음 세션 이어가기 (현재 상태 — 2026-06-23 기준)
 
-- 이 문서는 **플래닝 완료 결과물**이다. 모든 결정은 확정됨 (`### 결정된 선택`, `### 확정된 아키텍처 결정` 참조) → 추가 질문 없이 바로 착수 가능.
-- **현재 `/Users/hyoon/Lab/todo` 상태**:
-  - ✅ Harness 스캐폴드: `scripts/execute.py` + `scripts/test_execute.py`, `.claude/commands/{harness,review}.md` + `.claude/settings.json`.
-  - ✅ `.gitignore` 생성됨 (`node_modules`/`.next`/phase 실행 산출물(`phases/**/*-output.json`)/`NOTE.md` 무시).
-  - ⚠️ `CLAUDE.md` + `docs/{PRD,ARCHITECTURE,ADR,UI_GUIDE}.md` **파일은 존재하나 전부 템플릿 placeholder 상태(미작성)** → 아래 `## 사전 작업`에서 실제 내용으로 채워야 함. 이게 곧 가드레일이므로 step 실행 전 필수.
-  - ⬜ 아직 없음: `git init`(저장소 아님), 폴더 리네임(`todo`→`cadence`), `phases/`, `package.json`, 앱 코드. `NOTE.md`는 빈 placeholder.
-- **다음 할 일 순서**: 아래 `## 실행 / 검증 절차`의 0번부터. 즉 (0) 폴더 리네임 + `git init` → (1) **CLAUDE.md/docs 템플릿을 영어 실내용으로 채우기** + `phases/` 생성 → (2) `python3 scripts/execute.py 0-mvp`.
+- 이 문서는 **플래닝 완료 결과물**이다. 모든 결정은 확정됨 (`### 결정된 선택`, `### 확정된 아키텍처 결정` 참조).
+- **사전 작업 완료 ✅** — 이제 남은 건 `## 실행 / 검증 절차`의 **2번부터** (`python3 scripts/execute.py 0-mvp`).
+- **현재 `/Users/hyoon/Lab/cadence` 상태** (폴더 리네임 완료):
+  - ✅ `git init` 완료(`main` 브랜치). 모든 사전 산출물은 첫 커밋 `chore: scaffold Cadence ...`에 들어감 → `feat-*` 브랜치 base 확보.
+  - ✅ `CLAUDE.md` + `docs/{PRD,ARCHITECTURE,ADR,UI_GUIDE}.md` **실내용 작성 완료**(영어, project=Cadence).
+  - ✅ `phases/` 작성 완료: `phases/index.json` + 3개 phase의 `index.json` + 전 step의 `step{N}.md`(0-mvp 8개, 1-advanced 4개, 2-ai 2개). `project` 필드 = `cadence`. JSON 유효성 검증 통과.
+  - ✅ `.gitignore` (phase 실행 산출물/`NOTE.md` 무시).
+  - ⬜ **미실행**: `package.json`/앱 코드 없음 → step0(`project-setup`)이 생성. `phases/*/index.json`의 모든 step은 `pending`.
+  - ✅ **폴더 리네임 완료**: `todo`→`cadence`. 프로젝트명은 파일 내용상으로도 모두 `cadence`(harness는 폴더명 비의존).
+- **다음 할 일**: 새 폴더 `/Users/hyoon/Lab/cadence`에서 Claude Code를 다시 연 뒤 `python3 scripts/execute.py 0-mvp` 실행 → `feat-0-mvp` 브랜치에 step0~7 순차 실행. (각 step은 nested `claude -p` 세션, step당 최대 1800s)
 
 ---
 
 ## Context
 
-`/Users/hyoon/Lab/todo`는 **Harness 프레임워크**(`scripts/execute.py` + `.claude/commands/harness.md`)가 이미 구현된 빈 스캐폴드다. Harness는 프로젝트를 `phase → step`으로 쪼개 각 step을 독립된 Claude 세션에서 순차 실행하고, 브랜치 생성·2단계 커밋·컨텍스트 누적·retry(3회)·blocked 경로를 자동 처리한다.
+`/Users/hyoon/Lab/cadence`(구 `todo`)는 **Harness 프레임워크**(`scripts/execute.py` + `.claude/commands/harness.md`)가 이미 구현된 빈 스캐폴드다. Harness는 프로젝트를 `phase → step`으로 쪼개 각 step을 독립된 Claude 세션에서 순차 실행하고, 브랜치 생성·2단계 커밋·컨텍스트 누적·retry(3회)·blocked 경로를 자동 처리한다.
 
 목표는 단순히 todo 앱을 만드는 게 아니라, **Harness의 모든 경로를 한 번씩 자극하는 테스트베드**를 만드는 것이다. 그래서 앱은:
 - 레이어가 깔끔히 분리되어 "한 step = 한 모듈"로 self-contained 분해가 가능해야 하고,
