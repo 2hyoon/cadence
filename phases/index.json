@@ -1,0 +1,7 @@
+{
+  "phases": [
+    { "dir": "0-mvp", "status": "pending" },
+    { "dir": "1-advanced", "status": "pending" },
+    { "dir": "2-ai", "status": "pending" }
+  ]
+}

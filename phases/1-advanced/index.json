@@ -1,0 +1,10 @@
+{
+  "project": "cadence",
+  "phase": "1-advanced",
+  "steps": [
+    { "step": 0, "name": "recurrence", "status": "pending" },
+    { "step": 1, "name": "subtasks", "status": "pending" },
+    { "step": 2, "name": "history", "status": "pending" },
+    { "step": 3, "name": "stats", "status": "pending" }
+  ]
+}

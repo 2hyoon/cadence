@@ -1,0 +1,14 @@
+{
+  "project": "cadence",
+  "phase": "0-mvp",
+  "steps": [
+    { "step": 0, "name": "project-setup", "status": "pending" },
+    { "step": 1, "name": "core-types", "status": "pending" },
+    { "step": 2, "name": "persistence", "status": "pending" },
+    { "step": 3, "name": "store", "status": "pending" },
+    { "step": 4, "name": "app-shell-views", "status": "pending" },
+    { "step": 5, "name": "todo-crud-ui", "status": "pending" },
+    { "step": 6, "name": "quick-add", "status": "pending" },
+    { "step": 7, "name": "filter-sort-search", "status": "pending" }
+  ]
+}
