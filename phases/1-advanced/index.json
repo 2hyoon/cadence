@@ -29,7 +29,10 @@
     {
       "step": 3,
       "name": "stats",
-      "status": "pending"
+      "status": "completed",
+      "started_at": "2026-06-24T12:12:41+0900",
+      "summary": "computeStats(state, today, windowDays=7): Stats in lib/stats.ts — Stats shape: {completionRate, completedCount, totalCount, recentDays: DayCount[], recentTotal, windowDays}; completionRate = done/total top-level todos (0 on empty); recentDays groups completionLog by date over a rolling window (inclusive both ends, default 7); clock never read inside lib/; StatsView renders completion rate (amber accent, progress bar) + 7-day bar chart; wired into AppShell replacing placeholder.",
+      "completed_at": "2026-06-24T12:15:04+0900"
     }
   ],
   "created_at": "2026-06-24T11:55:56+0900"
