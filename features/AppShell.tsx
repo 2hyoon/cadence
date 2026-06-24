@@ -67,10 +67,21 @@ export function AppShell() {
         e.preventDefault();
         setQuickAddOpen((prev) => !prev);
       }
+      if (e.key.toLowerCase() === "z" && (e.metaKey || e.ctrlKey) && !e.shiftKey) {
+        e.preventDefault();
+        dispatch({ type: "undo" });
+      }
+      if (
+        (e.key.toLowerCase() === "z" && (e.metaKey || e.ctrlKey) && e.shiftKey) ||
+        (e.key.toLowerCase() === "y" && e.ctrlKey)
+      ) {
+        e.preventDefault();
+        dispatch({ type: "redo" });
+      }
     }
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [dispatch]);
 
   function handleQuickAddSubmit(draft: QuickAddDraft) {
     dispatch({

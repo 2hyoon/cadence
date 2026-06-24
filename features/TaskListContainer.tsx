@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useTodos } from "../store/TodoProvider";
 import { TaskList } from "../components/TaskList";
 import { TaskDetail } from "../components/TaskDetail";
@@ -22,6 +22,20 @@ export function TaskListContainer({ todos, today }: TaskListContainerProps) {
   const [priorityFilter, setPriorityFilter] = useState<Priority | "">("");
   const [sortKey, setSortKey] = useState<SortKey>("dueDate");
   const [sortDir, setSortDir] = useState<SortDirection>("asc");
+  const [toast, setToast] = useState<string | null>(null);
+  const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+    };
+  }, []);
+
+  function showToast(msg: string) {
+    if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+    setToast(msg);
+    toastTimerRef.current = setTimeout(() => setToast(null), 3000);
+  }
 
   const selectedTodo = selectedId ? state.todos.find((t) => t.id === selectedId) : null;
   const selectedSubtasks = selectedTodo
@@ -29,7 +43,11 @@ export function TaskListContainer({ todos, today }: TaskListContainerProps) {
     : [];
 
   function handleToggle(id: string) {
+    const todo = state.todos.find((t) => t.id === id);
     dispatch({ type: "toggle", payload: { id, date: today } });
+    if (todo && !todo.completed) {
+      showToast("Task completed");
+    }
   }
 
   function handleEdit(id: string, updates: Partial<Omit<Todo, "id">>) {
@@ -39,6 +57,7 @@ export function TaskListContainer({ todos, today }: TaskListContainerProps) {
   function handleDelete(id: string) {
     dispatch({ type: "delete", payload: { id } });
     if (selectedId === id) setSelectedId(null);
+    showToast("Task deleted");
   }
 
   function handleAddSubtask(parentId: string, title: string) {
@@ -169,6 +188,25 @@ export function TaskListContainer({ todos, today }: TaskListContainerProps) {
           onToggleSubtask={handleToggle}
           onDeleteSubtask={handleDelete}
         />
+      )}
+
+      {toast && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 rounded-lg bg-neutral-800 border border-neutral-700 px-4 py-3 text-sm text-neutral-300 shadow-lg animate-slide-up"
+        >
+          <span>{toast}</span>
+          <button
+            onClick={() => {
+              dispatch({ type: "undo" });
+              setToast(null);
+            }}
+            className="text-amber-500 hover:text-amber-400 font-medium"
+          >
+            Undo
+          </button>
+        </div>
       )}
     </div>
   );
