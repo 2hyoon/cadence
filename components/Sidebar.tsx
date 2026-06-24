@@ -43,27 +43,30 @@ export function Sidebar({ activeView, onSelect }: SidebarProps) {
           </button>
         ))}
       </nav>
-
-      {/* Mobile bottom tab bar */}
-      <nav
-        aria-label="Primary navigation"
-        className="md:hidden fixed bottom-0 left-0 right-0 bg-[#f7f4ed] border-t border-[#eceae4] flex"
-      >
-        {NAV_ITEMS.map((item) => (
-          <button
-            key={item.id}
-            onClick={() => onSelect(item.id)}
-            className={[
-              "flex-1 py-3 text-xs font-medium transition-colors",
-              activeView === item.id
-                ? "text-[#1c1c1c]"
-                : "text-[#5f5f5d] hover:text-[#1c1c1c]",
-            ].join(" ")}
-          >
-            {item.label}
-          </button>
-        ))}
-      </nav>
     </>
+  );
+}
+
+export function MobileTabs({ activeView, onSelect }: SidebarProps) {
+  return (
+    <nav
+      aria-label="Primary navigation"
+      className="md:hidden flex gap-1 overflow-x-auto whitespace-nowrap [&::-webkit-scrollbar]:hidden"
+    >
+      {NAV_ITEMS.map((item) => (
+        <button
+          key={item.id}
+          onClick={() => onSelect(item.id)}
+          className={[
+            "shrink-0 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors",
+            activeView === item.id
+              ? "text-[#1c1c1c] bg-[rgba(28,28,28,0.06)]"
+              : "text-[#5f5f5d] hover:text-[#1c1c1c] hover:bg-[rgba(28,28,28,0.04)]",
+          ].join(" ")}
+        >
+          {item.label}
+        </button>
+      ))}
+    </nav>
   );
 }

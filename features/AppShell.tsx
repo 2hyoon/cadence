@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useTodos } from "../store/TodoProvider";
 import { classify, type ViewId } from "../lib/views";
-import { Sidebar } from "../components/Sidebar";
+import { Sidebar, MobileTabs } from "../components/Sidebar";
 import { TaskListContainer } from "./TaskListContainer";
 import { QuickAdd, type QuickAddDraft } from "../components/QuickAdd";
 import type { Todo } from "../types/todo";
@@ -139,10 +139,14 @@ export function AppShell() {
       <div className="flex-1 flex max-w-5xl w-full mx-auto px-4 py-8 gap-8">
         <Sidebar activeView={activeView} onSelect={setActiveView} />
 
-        <main className="flex-1 min-w-0 pb-16 md:pb-0">
+        <main className="flex-1 min-w-0">
           <h1 className="text-2xl font-semibold text-[#1c1c1c] mb-6">
             {VIEW_LABELS[activeView]}
           </h1>
+
+          <div className="md:hidden mb-4">
+            <MobileTabs activeView={activeView} onSelect={setActiveView} />
+          </div>
 
           {/* Pre-hydration skeleton */}
           {!hydrated && (
