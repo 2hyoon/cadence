@@ -7,7 +7,7 @@
       "name": "ai-parse-api",
       "status": "completed",
       "started_at": "2026-06-24T20:54:46+0900",
-      "completed_at": "2026-06-24T22:58:00+0900",
+      "completed_at": "2026-06-24T20:58:52+0900",
       "summary": "Created POST /api/parse route handler at app/api/parse/route.ts. Accepts { text: string } (max 500 chars), calls Claude claude-haiku-4-5, hand-validates the JSON response (non-empty title required; dueDate dropped if not YYYY-MM-DD; priority coerced to low|medium|high with medium fallback; tags filtered to string[]). Returns { title, dueDate?, priority, tags }. Error responses: 400 for bad input, 401/429 forwarded from the AI call, 502 for network/malformed-JSON errors. AC tests in app/api/parse/route.test.ts mock @anthropic-ai/sdk via vi.hoisted + vi.mock — 13 tests, all pass without ANTHROPIC_API_KEY. Model used: claude-haiku-4-5."
     },
     {
