@@ -41,7 +41,7 @@ Warm light theme: an off-white canvas with dark warm-ink text. Set globally in `
 | Overdue / Error | #ef4444 (red-500) |
 | Focus ring | rgba(59,130,246,0.5) |
 
-> Monochrome warm ink; semantic color reserved for state. Due-date badges: overdue = red-500, today = #1c1c1c, upcoming = #5f5f5d. Completed tasks always render the date in #5f5f5d regardless of due status. Priority dots: high = red-500, medium = #1c1c1c, low = rgba(28,28,28,0.3).
+> Monochrome warm ink; semantic color reserved for state. Due-date badges: overdue = red-500, today = #1c1c1c, upcoming = #5f5f5d. Completed tasks always render the date in #5f5f5d regardless of due status. Priority dots: high = red-500/90, medium = blue-500/70, low = #64748b/70 (slate).
 
 ## Components
 ### Card
@@ -65,7 +65,7 @@ rounded-lg bg-[#fcfbf8] border border-[#eceae4] px-4 py-3 text-[#1c1c1c] placeho
 - Full width: max-w-5xl content column.
 - Alignment: left-aligned by default. No center alignment of content.
 - Spacing: gap-3~4, space-y-6~8 between sections.
-- Shell: persistent sidebar (Today / Upcoming / All / Completed / Stats) on desktop; collapses to a bottom tab bar on mobile.
+- Shell: persistent sidebar (Today / Upcoming / All / Completed / Stats) on desktop; becomes a horizontal segmented tab row under the title on mobile.
 
 ## Typography
 | Use | Style |

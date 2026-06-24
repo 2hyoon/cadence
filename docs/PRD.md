@@ -26,4 +26,4 @@ Individuals who run their day from a task list and want repeating routines, brea
 ## Design
 - Warm light, minimal, tool-like (a dashboard used daily, not a marketing page).
 - Monochrome warm neutrals on an off-white canvas; semantic color reserved for state.
-- Keyboard-first interactions; responsive (sidebar collapses to bottom tabs on mobile).
+- Keyboard-first interactions; responsive (sidebar becomes a top segmented tab row on mobile).
