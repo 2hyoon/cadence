@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTodos } from "../store/TodoProvider";
 import { classify, type ViewId } from "../lib/views";
 import { Sidebar } from "../components/Sidebar";
 import { TaskListContainer } from "./TaskListContainer";
+import { QuickAdd, type QuickAddDraft } from "../components/QuickAdd";
 import type { Todo } from "../types/todo";
 
 type AnyViewId = ViewId | "stats";
@@ -58,6 +59,31 @@ const VIEW_LABELS: Record<AnyViewId, string> = {
 export function AppShell() {
   const { state, dispatch, hydrated } = useTodos();
   const [activeView, setActiveView] = useState<AnyViewId>("today");
+  const [quickAddOpen, setQuickAddOpen] = useState(false);
+
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setQuickAddOpen((prev) => !prev);
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  function handleQuickAddSubmit(draft: QuickAddDraft) {
+    dispatch({
+      type: "add",
+      payload: {
+        ...draft,
+        id: crypto.randomUUID(),
+        createdAt: new Date().toISOString(),
+        completed: false,
+        tags: draft.tags,
+      },
+    });
+  }
 
   const today = getTodayString();
   const views = classify(state.todos, today);
@@ -132,6 +158,11 @@ export function AppShell() {
           )}
         </main>
       </div>
+      <QuickAdd
+        open={quickAddOpen}
+        onClose={() => setQuickAddOpen(false)}
+        onSubmit={handleQuickAddSubmit}
+      />
     </div>
   );
 }

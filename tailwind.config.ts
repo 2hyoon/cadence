@@ -7,7 +7,17 @@ const config: Config = {
     './features/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        "slide-up": {
+          from: { transform: "translateY(16px)", opacity: "0" },
+          to: { transform: "translateY(0)", opacity: "1" },
+        },
+      },
+      animation: {
+        "slide-up": "slide-up 0.2s ease-out",
+      },
+    },
   },
   plugins: [],
 }
