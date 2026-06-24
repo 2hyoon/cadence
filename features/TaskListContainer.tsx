@@ -25,7 +25,7 @@ export function TaskListContainer({ todos, today }: TaskListContainerProps) {
   const selectedTodo = selectedId ? state.todos.find((t) => t.id === selectedId) : null;
 
   function handleToggle(id: string) {
-    dispatch({ type: "toggle", payload: { id } });
+    dispatch({ type: "toggle", payload: { id, date: today } });
   }
 
   function handleEdit(id: string, updates: Partial<Omit<Todo, "id">>) {

@@ -74,6 +74,70 @@ describe("reducer", () => {
     });
   });
 
+  describe("toggle — recurring task", () => {
+    const recurringTodo: Todo = {
+      ...baseTodo,
+      dueDate: "2025-01-15",
+      recurrence: { preset: "daily" },
+      seriesId: "series-1",
+    };
+
+    it("appends a CompletionLogEntry using the todo's dueDate", () => {
+      const state = { ...emptyState(), todos: [recurringTodo] };
+      const next = reducer(state, {
+        type: "toggle",
+        payload: { id: "1", date: "2025-01-15" },
+      });
+      expect(next.completionLog).toHaveLength(1);
+      expect(next.completionLog[0]).toEqual({ seriesId: "series-1", date: "2025-01-15" });
+    });
+
+    it("rolls dueDate forward and keeps completed false", () => {
+      const state = { ...emptyState(), todos: [recurringTodo] };
+      const next = reducer(state, {
+        type: "toggle",
+        payload: { id: "1", date: "2025-01-15" },
+      });
+      expect(next.todos[0].completed).toBe(false);
+      expect(next.todos[0].dueDate).toBe("2025-01-16");
+    });
+
+    it("uses action.date as the log entry date when todo has no dueDate", () => {
+      const noDueDate: Todo = { ...recurringTodo, dueDate: undefined };
+      const state = { ...emptyState(), todos: [noDueDate] };
+      const next = reducer(state, {
+        type: "toggle",
+        payload: { id: "1", date: "2025-01-20" },
+      });
+      expect(next.completionLog[0].date).toBe("2025-01-20");
+    });
+
+    it("double-completion produces two distinct log entries", () => {
+      const state = { ...emptyState(), todos: [recurringTodo] };
+      const after1 = reducer(state, {
+        type: "toggle",
+        payload: { id: "1", date: "2025-01-15" },
+      });
+      const after2 = reducer(after1, {
+        type: "toggle",
+        payload: { id: "1", date: "2025-01-16" },
+      });
+      expect(after2.completionLog).toHaveLength(2);
+      expect(after2.completionLog[0].date).toBe("2025-01-15");
+      expect(after2.completionLog[1].date).toBe("2025-01-16");
+    });
+
+    it("does not log or roll forward a non-recurring task", () => {
+      const state = { ...emptyState(), todos: [baseTodo] };
+      const next = reducer(state, {
+        type: "toggle",
+        payload: { id: "1", date: "2025-01-15" },
+      });
+      expect(next.completionLog).toHaveLength(0);
+      expect(next.todos[0].completed).toBe(true);
+    });
+  });
+
   describe("delete", () => {
     it("removes the targeted todo", () => {
       const state = { ...emptyState(), todos: [baseTodo] };

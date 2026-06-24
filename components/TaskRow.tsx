@@ -48,6 +48,12 @@ export function TaskRow({ todo, today, onToggle, onSelect, onDelete }: TaskRowPr
 
       <span className={`w-2 h-2 rounded-full flex-shrink-0 ${PRIORITY_DOT[todo.priority]}`} />
 
+      {todo.recurrence && (
+        <span className="text-xs text-neutral-500 flex-shrink-0" title="Recurring">
+          ↻
+        </span>
+      )}
+
       {status !== "none" && (
         <span className={`text-xs flex-shrink-0 ${BADGE_CLASS[status]}`}>
           {todo.dueDate}

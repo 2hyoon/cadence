@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import type { Priority, Todo } from "../types/todo";
+import type { Priority, RecurrencePreset, Todo } from "../types/todo";
 
 interface TaskDetailProps {
   todo: Todo;
@@ -17,6 +17,9 @@ export function TaskDetail({ todo, onSave, onClose, onDelete }: TaskDetailProps)
   const [notes, setNotes] = useState(todo.notes ?? "");
   const [dueDate, setDueDate] = useState(todo.dueDate ?? "");
   const [priority, setPriority] = useState<Priority>(todo.priority);
+  const [recurrencePreset, setRecurrencePreset] = useState<RecurrencePreset | "">(
+    todo.recurrence?.preset ?? ""
+  );
   const titleRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -26,11 +29,16 @@ export function TaskDetail({ todo, onSave, onClose, onDelete }: TaskDetailProps)
   function handleSave() {
     const trimmed = title.trim();
     if (!trimmed) return;
+    const recurrence = recurrencePreset ? { preset: recurrencePreset } : undefined;
+    const seriesId =
+      recurrencePreset && !todo.seriesId ? crypto.randomUUID() : todo.seriesId;
     onSave({
       title: trimmed,
       notes: notes.trim() || undefined,
       dueDate: dueDate || undefined,
       priority,
+      recurrence,
+      seriesId,
     });
     onClose();
   }
@@ -118,6 +126,23 @@ export function TaskDetail({ todo, onSave, onClose, onDelete }: TaskDetailProps)
               ))}
             </select>
           </div>
+        </div>
+
+        <div>
+          <label htmlFor="detail-recurrence" className="block text-xs text-neutral-500 mb-1">
+            Recurrence
+          </label>
+          <select
+            id="detail-recurrence"
+            value={recurrencePreset}
+            onChange={(e) => setRecurrencePreset(e.target.value as RecurrencePreset | "")}
+            className="w-full rounded-lg bg-neutral-900 border border-neutral-800 px-4 py-3 text-sm text-neutral-300 focus:border-neutral-600 focus:outline-none"
+          >
+            <option value="">None</option>
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+          </select>
         </div>
 
         <div className="flex gap-2 pt-2">
