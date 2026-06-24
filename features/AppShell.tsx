@@ -62,6 +62,14 @@ export function AppShell() {
   const [activeView, setActiveView] = useState<AnyViewId>("today");
   const [quickAddOpen, setQuickAddOpen] = useState(false);
 
+  const VIEW_KEYS: Record<string, AnyViewId> = {
+    "1": "today",
+    "2": "upcoming",
+    "3": "all",
+    "4": "completed",
+    "5": "stats",
+  };
+
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
@@ -78,6 +86,13 @@ export function AppShell() {
       ) {
         e.preventDefault();
         dispatch({ type: "redo" });
+      }
+
+      // Number keys 1-5: switch views (only when no input is focused)
+      const tag = (e.target as HTMLElement).tagName;
+      if (tag !== "INPUT" && tag !== "TEXTAREA" && tag !== "SELECT") {
+        const view = VIEW_KEYS[e.key];
+        if (view) setActiveView(view);
       }
     }
     window.addEventListener("keydown", handleKeyDown);

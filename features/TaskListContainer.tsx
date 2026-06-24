@@ -23,13 +23,45 @@ export function TaskListContainer({ todos, today }: TaskListContainerProps) {
   const [priorityFilter, setPriorityFilter] = useState<Priority | "">("");
   const [sortKey, setSortKey] = useState<SortKey>("dueDate");
   const [sortDir, setSortDir] = useState<SortDirection>("asc");
+  const [focusedIndex, setFocusedIndex] = useState(-1);
   const [toast, setToast] = useState<string | null>(null);
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const displayTodosRef = useRef<Todo[]>([]);
+  const focusedIndexRef = useRef(-1);
+  focusedIndexRef.current = focusedIndex;
 
   useEffect(() => {
     return () => {
       if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
     };
+  }, []);
+
+  // Reset focus when filter/sort changes
+  useEffect(() => {
+    setFocusedIndex(-1);
+  }, [query, priorityFilter, sortKey, sortDir]);
+
+  // j/k/↑/↓ navigation; Enter opens detail
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      const tag = (e.target as HTMLElement).tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+
+      const todos = displayTodosRef.current;
+      const idx = focusedIndexRef.current;
+
+      if (e.key === "j" || e.key === "ArrowDown") {
+        e.preventDefault();
+        setFocusedIndex(Math.min(idx + 1, todos.length - 1));
+      } else if (e.key === "k" || e.key === "ArrowUp") {
+        e.preventDefault();
+        setFocusedIndex(Math.max(idx - 1, 0));
+      } else if (e.key === "Enter" && idx >= 0 && todos[idx]) {
+        setSelectedId(todos[idx].id);
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   function showToast(msg: string) {
@@ -136,6 +168,7 @@ export function TaskListContainer({ todos, today }: TaskListContainerProps) {
     priority: priorityFilter || undefined,
   };
   const displayTodos = sortTodos(filterTodos(parentTodos, criteria), sortKey, sortDir);
+  displayTodosRef.current = displayTodos;
 
   const subtaskProgressMap: Record<string, ReturnType<typeof subtaskProgress>> = {};
   for (const todo of displayTodos) {
@@ -192,6 +225,7 @@ export function TaskListContainer({ todos, today }: TaskListContainerProps) {
           todos={displayTodos}
           today={today}
           subtaskProgressMap={subtaskProgressMap}
+          focusedIndex={focusedIndex}
           onToggle={handleToggle}
           onSelect={setSelectedId}
           onDelete={handleDelete}

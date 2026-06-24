@@ -8,6 +8,8 @@ interface TaskRowProps {
   todo: Todo;
   today: string;
   subtaskProgress?: SubtaskProgress;
+  isFocused?: boolean;
+  rowRef?: (el: HTMLDivElement | null) => void;
   onToggle: () => void;
   onSelect: () => void;
   onDelete: () => void;
@@ -25,11 +27,17 @@ const BADGE_CLASS: Record<string, string> = {
   upcoming: "text-neutral-400",
 };
 
-export function TaskRow({ todo, today, subtaskProgress, onToggle, onSelect, onDelete }: TaskRowProps) {
+export function TaskRow({ todo, today, subtaskProgress, isFocused, rowRef, onToggle, onSelect, onDelete }: TaskRowProps) {
   const status = dueStatus(todo.dueDate, today);
 
   return (
-    <div className="rounded-lg bg-[#141414] border border-neutral-800 p-4 flex items-center gap-3">
+    <div
+      ref={rowRef}
+      className={[
+        "rounded-lg bg-[#141414] border p-4 flex items-center gap-3",
+        isFocused ? "border-amber-500" : "border-neutral-800",
+      ].join(" ")}
+    >
       <input
         type="checkbox"
         checked={todo.completed}
