@@ -61,7 +61,10 @@
     {
       "step": 7,
       "name": "filter-sort-search",
-      "status": "pending"
+      "status": "completed",
+      "started_at": "2026-06-24T11:51:31+0900",
+      "summary": "Pure lib/filter.ts (FilterCriteria: query/priority/tag → filterTodos(todos, criteria)) and lib/sort.ts (SortKey: dueDate|priority|createdAt, SortDirection: asc|desc → sortTodos(todos, key, dir), stable, no mutation, undefined dueDates always last); search/filter/sort bar (query input, priority select, sort-key select, sort-dir toggle) in features/TaskListContainer.tsx, state local to container; 21 new unit tests (12 filter + 9 sort); 95 tests total green.",
+      "completed_at": "2026-06-24T11:54:14+0900"
     }
   ],
   "created_at": "2026-06-24T07:58:22+0900"
