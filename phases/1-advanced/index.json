@@ -2,9 +2,29 @@
   "project": "cadence",
   "phase": "1-advanced",
   "steps": [
-    { "step": 0, "name": "recurrence", "status": "pending" },
-    { "step": 1, "name": "subtasks", "status": "pending" },
-    { "step": 2, "name": "history", "status": "pending" },
-    { "step": 3, "name": "stats", "status": "pending" }
-  ]
+    {
+      "step": 0,
+      "name": "recurrence",
+      "status": "completed",
+      "started_at": "2026-06-24T11:55:56+0900",
+      "summary": "Added nextDueDate(dueDate, preset) in lib/recurrence.ts (daily/weekly/monthly with UTC month-end clamp); extended toggle action payload with optional date field; reducer rolls recurring tasks forward in-place and appends CompletionLogEntry{seriesId, date} using todo.dueDate ?? action.date; added ↻ indicator in TaskRow; added recurrence preset select in TaskDetail with auto-generated seriesId on first set.",
+      "completed_at": "2026-06-24T11:59:48+0900"
+    },
+    {
+      "step": 1,
+      "name": "subtasks",
+      "status": "pending"
+    },
+    {
+      "step": 2,
+      "name": "history",
+      "status": "pending"
+    },
+    {
+      "step": 3,
+      "name": "stats",
+      "status": "pending"
+    }
+  ],
+  "created_at": "2026-06-24T11:55:56+0900"
 }
