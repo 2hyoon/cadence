@@ -53,7 +53,10 @@
     {
       "step": 6,
       "name": "quick-add",
-      "status": "pending"
+      "status": "completed",
+      "started_at": "2026-06-24T11:48:51+0900",
+      "summary": "QuickAdd modal (components/QuickAdd.tsx) with title/dueDate/priority/tags fields and slide-up animation; global ⌘K/Ctrl+K listener wired in features/AppShell.tsx via useEffect (cleaned up on unmount); draft-submit seam (QuickAddDraft + onSubmit prop) ready for phase 2 AI pre-fill; 5 RTL tests cover shortcut open (⌘K and Ctrl+K), Esc close, submit+close, empty-title rejection; 74 tests total green.",
+      "completed_at": "2026-06-24T11:51:31+0900"
     },
     {
       "step": 7,
