@@ -7,6 +7,7 @@ import { Sidebar } from "../components/Sidebar";
 import { TaskListContainer } from "./TaskListContainer";
 import { QuickAdd, type QuickAddDraft } from "../components/QuickAdd";
 import type { Todo } from "../types/todo";
+import { StatsView } from "./StatsView";
 
 type AnyViewId = ViewId | "stats";
 
@@ -161,11 +162,9 @@ export function AppShell() {
             <TaskListContainer todos={currentList} today={today} />
           )}
 
-          {/* Stats placeholder */}
+          {/* Stats dashboard */}
           {hydrated && activeView === "stats" && (
-            <p className="text-neutral-500 text-sm">
-              Stats dashboard coming soon.
-            </p>
+            <StatsView state={state} today={today} />
           )}
         </main>
       </div>
