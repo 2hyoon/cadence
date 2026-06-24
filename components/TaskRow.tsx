@@ -17,14 +17,14 @@ interface TaskRowProps {
 
 const PRIORITY_DOT: Record<string, string> = {
   high: "bg-red-500",
-  medium: "bg-amber-500",
-  low: "bg-neutral-500",
+  medium: "bg-[#1c1c1c]",
+  low: "bg-[rgba(28,28,28,0.3)]",
 };
 
 const BADGE_CLASS: Record<string, string> = {
   overdue: "text-red-500",
-  today: "text-amber-500",
-  upcoming: "text-neutral-400",
+  today: "text-[#1c1c1c]",
+  upcoming: "text-[#5f5f5d]",
 };
 
 export function TaskRow({ todo, today, subtaskProgress, isFocused, rowRef, onToggle, onSelect, onDelete }: TaskRowProps) {
@@ -34,8 +34,8 @@ export function TaskRow({ todo, today, subtaskProgress, isFocused, rowRef, onTog
     <div
       ref={rowRef}
       className={[
-        "rounded-lg bg-[#141414] border p-4 flex items-center gap-3",
-        isFocused ? "border-amber-500" : "border-neutral-800",
+        "rounded-lg bg-[#f7f4ed] border p-4 flex items-center gap-3",
+        isFocused ? "border-[rgba(28,28,28,0.4)]" : "border-[#eceae4]",
       ].join(" ")}
     >
       <input
@@ -43,14 +43,14 @@ export function TaskRow({ todo, today, subtaskProgress, isFocused, rowRef, onTog
         checked={todo.completed}
         onChange={onToggle}
         aria-label={`Mark "${todo.title}" complete`}
-        className="w-4 h-4 rounded border-neutral-600 bg-neutral-900 accent-amber-500 flex-shrink-0 cursor-pointer"
+        className="w-4 h-4 rounded border-[#eceae4] bg-[#f7f4ed] accent-[#1c1c1c] flex-shrink-0 cursor-pointer"
       />
 
       <button
         onClick={onSelect}
         className={[
           "flex-1 text-left text-sm truncate",
-          todo.completed ? "line-through text-neutral-500" : "text-neutral-300 hover:text-white",
+          todo.completed ? "line-through text-[#5f5f5d]" : "text-[#1c1c1c] hover:text-[#1c1c1c]",
         ].join(" ")}
       >
         {todo.title}
@@ -59,13 +59,13 @@ export function TaskRow({ todo, today, subtaskProgress, isFocused, rowRef, onTog
       <span className={`w-2 h-2 rounded-full flex-shrink-0 ${PRIORITY_DOT[todo.priority]}`} />
 
       {todo.recurrence && (
-        <span className="text-xs text-neutral-500 flex-shrink-0" title="Recurring">
+        <span className="text-xs text-[#5f5f5d] flex-shrink-0" title="Recurring">
           ↻
         </span>
       )}
 
       {subtaskProgress && subtaskProgress.total > 0 && (
-        <span className="text-xs text-neutral-500 flex-shrink-0" title="Subtask progress">
+        <span className="text-xs text-[#5f5f5d] flex-shrink-0" title="Subtask progress">
           {subtaskProgress.done}/{subtaskProgress.total}
         </span>
       )}
@@ -79,7 +79,7 @@ export function TaskRow({ todo, today, subtaskProgress, isFocused, rowRef, onTog
       <button
         onClick={onDelete}
         aria-label={`Remove "${todo.title}"`}
-        className="flex-shrink-0 text-neutral-600 hover:text-red-400 transition-colors"
+        className="flex-shrink-0 text-[rgba(28,28,28,0.3)] hover:text-red-500 transition-colors"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

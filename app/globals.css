@@ -1,3 +1,43 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+  body {
+    background-color: #f7f4ed;
+    color: #1c1c1c;
+  }
+  /* Force light-mode rendering on all native form controls */
+  input,
+  select,
+  textarea,
+  button {
+    color-scheme: light;
+  }
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0.4;
+  }
+}
+
+@layer utilities {
+  .btn-inset {
+    box-shadow:
+      rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+      rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+      rgba(255, 255, 255, 0.2) 0px 0.5px 0px 0px inset,
+      rgba(0, 0, 0, 0.2) 0px 0px 0px 0.5px inset,
+      rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+  }
+  .btn-inset:active {
+    opacity: 0.8;
+  }
+  /* Design system focus ring: blue shadow per --shadow-ring token */
+  .input-ring:focus {
+    outline: none;
+    border-color: rgba(28, 28, 28, 0.4);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+  }
+}

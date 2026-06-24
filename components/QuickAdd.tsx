@@ -21,6 +21,9 @@ interface QuickAddProps {
 
 const PRIORITIES: Priority[] = ["low", "medium", "high"];
 
+const inputClass =
+  "w-full rounded-md bg-[#f7f4ed] border border-[#eceae4] px-4 py-3 text-sm text-[#1c1c1c] placeholder-[#5f5f5d] input-ring";
+
 export function QuickAdd({ open, onClose, onSubmit, initialDraft }: QuickAddProps) {
   const [title, setTitle] = useState(initialDraft?.title ?? "");
   const [dueDate, setDueDate] = useState(initialDraft?.dueDate ?? "");
@@ -106,15 +109,13 @@ export function QuickAdd({ open, onClose, onSubmit, initialDraft }: QuickAddProp
       onKeyDown={handleKeyDown}
     >
       <div
-        className="absolute inset-0 bg-black/60"
+        className="absolute inset-0 bg-[#1c1c1c]/20"
         onClick={onClose}
         aria-hidden="true"
       />
 
-      <div
-        className="relative z-10 w-full max-w-md rounded-lg bg-[#141414] border border-neutral-800 p-6 space-y-4 animate-slide-up"
-      >
-        <h2 className="text-sm font-medium text-neutral-300">Quick Add</h2>
+      <div className="relative z-10 w-full max-w-md rounded-xl bg-[#f7f4ed] border border-[#eceae4] p-6 space-y-4 animate-slide-up">
+        <h2 className="text-sm font-medium text-[#1c1c1c]">Quick Add</h2>
 
         <div>
           <div className="flex gap-2">
@@ -130,18 +131,18 @@ export function QuickAdd({ open, onClose, onSubmit, initialDraft }: QuickAddProp
                 }
               }}
               disabled={nlLoading}
-              className="flex-1 rounded-lg bg-neutral-900 border border-neutral-800 px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-600 disabled:opacity-50"
+              className="flex-1 rounded-md bg-[#f7f4ed] border border-[#eceae4] px-4 py-3 text-sm text-[#1c1c1c] placeholder-[#5f5f5d] input-ring disabled:opacity-50"
             />
             <button
               onClick={handleParse}
               disabled={nlLoading || !nlText.trim()}
-              className="rounded-lg border border-neutral-700 text-neutral-400 text-sm px-3 py-2 hover:text-neutral-300 hover:border-neutral-600 disabled:opacity-40 transition-colors"
+              className="rounded-md border border-[rgba(28,28,28,0.4)] text-[#1c1c1c] text-sm px-3 py-2 hover:bg-[rgba(28,28,28,0.04)] disabled:opacity-40 transition-colors"
             >
               {nlLoading ? "Parsing..." : "Parse"}
             </button>
           </div>
           {nlNotice && (
-            <p className="mt-1 text-xs text-neutral-500">{nlNotice}</p>
+            <p className="mt-1 text-xs text-[#5f5f5d]">{nlNotice}</p>
           )}
         </div>
 
@@ -153,18 +154,18 @@ export function QuickAdd({ open, onClose, onSubmit, initialDraft }: QuickAddProp
             value={title}
             onChange={(e) => { setTitle(e.target.value); setTitleError(false); }}
             onKeyDown={handleTitleKeyDown}
-            className={`w-full rounded-lg bg-neutral-900 border px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none ${
-              titleError ? "border-red-500 focus:border-red-500" : "border-neutral-800 focus:border-neutral-600"
+            className={`w-full rounded-md bg-[#f7f4ed] border px-4 py-3 text-sm text-[#1c1c1c] placeholder-[#5f5f5d] input-ring ${
+              titleError ? "border-red-500" : "border-[#eceae4]"
             }`}
           />
           {titleError && (
-            <p className="mt-1 text-xs text-red-400">Title is required.</p>
+            <p className="mt-1 text-xs text-red-500">Title is required.</p>
           )}
         </div>
 
         <div className="flex gap-3">
           <div className="flex-1">
-            <label htmlFor="qa-due" className="block text-xs text-neutral-500 mb-1">
+            <label htmlFor="qa-due" className="block text-xs text-[#5f5f5d] mb-1">
               Due date
             </label>
             <input
@@ -172,19 +173,19 @@ export function QuickAdd({ open, onClose, onSubmit, initialDraft }: QuickAddProp
               type="date"
               value={dueDate}
               onChange={(e) => setDueDate(e.target.value)}
-              className="w-full rounded-lg bg-neutral-900 border border-neutral-800 px-4 py-3 text-sm text-neutral-300 focus:border-neutral-600 focus:outline-none"
+              className={inputClass}
             />
           </div>
 
           <div className="flex-1">
-            <label htmlFor="qa-priority" className="block text-xs text-neutral-500 mb-1">
+            <label htmlFor="qa-priority" className="block text-xs text-[#5f5f5d] mb-1">
               Priority
             </label>
             <select
               id="qa-priority"
               value={priority}
               onChange={(e) => setPriority(e.target.value as Priority)}
-              className="w-full rounded-lg bg-neutral-900 border border-neutral-800 px-4 py-3 text-sm text-neutral-300 focus:border-neutral-600 focus:outline-none"
+              className={inputClass}
             >
               {PRIORITIES.map((p) => (
                 <option key={p} value={p}>
@@ -196,7 +197,7 @@ export function QuickAdd({ open, onClose, onSubmit, initialDraft }: QuickAddProp
         </div>
 
         <div>
-          <label htmlFor="qa-tags" className="block text-xs text-neutral-500 mb-1">
+          <label htmlFor="qa-tags" className="block text-xs text-[#5f5f5d] mb-1">
             Tags (comma-separated)
           </label>
           <input
@@ -204,24 +205,24 @@ export function QuickAdd({ open, onClose, onSubmit, initialDraft }: QuickAddProp
             value={tagsRaw}
             onChange={(e) => setTagsRaw(e.target.value)}
             placeholder="work, personal, ..."
-            className="w-full rounded-lg bg-neutral-900 border border-neutral-800 px-4 py-3 text-sm text-neutral-300 placeholder-neutral-600 focus:border-neutral-600 focus:outline-none"
+            className={inputClass}
           />
         </div>
 
         <div className="flex gap-2 pt-2">
           <button
             onClick={handleSubmit}
-            className="rounded-lg bg-amber-500 text-black text-sm font-medium px-4 py-2 hover:bg-amber-400 transition-colors"
+            className="rounded-md bg-[#1c1c1c] text-[#fcfbf8] text-sm font-medium px-4 py-2 btn-inset transition-opacity"
           >
             Add task
           </button>
           <button
             onClick={onClose}
-            className="rounded-lg text-neutral-400 text-sm px-4 py-2 hover:text-neutral-300 transition-colors"
+            className="rounded-md border border-[rgba(28,28,28,0.4)] text-[#1c1c1c] text-sm px-4 py-2 hover:bg-[rgba(28,28,28,0.04)] transition-colors"
           >
             Cancel
           </button>
-          <span className="ml-auto text-xs text-neutral-600 self-center">
+          <span className="ml-auto text-xs text-[rgba(28,28,28,0.4)] self-center">
             ⌘K to open · Enter to add · Esc to close
           </span>
         </div>

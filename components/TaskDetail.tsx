@@ -17,6 +17,9 @@ interface TaskDetailProps {
 
 const PRIORITIES: Priority[] = ["low", "medium", "high"];
 
+const inputClass =
+  "w-full rounded-md bg-[#f7f4ed] border border-[#eceae4] px-4 py-3 text-sm text-[#1c1c1c] placeholder-[#5f5f5d] input-ring";
+
 export function TaskDetail({
   todo,
   subtasks,
@@ -86,14 +89,14 @@ export function TaskDetail({
       onKeyDown={handleKeyDown}
     >
       <div
-        className="absolute inset-0 bg-black/60"
+        className="absolute inset-0 bg-[#1c1c1c]/20"
         onClick={onClose}
         aria-hidden="true"
       />
 
-      <div className="relative z-10 w-full max-w-md rounded-lg bg-[#141414] border border-neutral-800 p-6 space-y-4 max-h-[90vh] overflow-y-auto">
+      <div className="relative z-10 w-full max-w-md rounded-xl bg-[#f7f4ed] border border-[#eceae4] p-6 space-y-4 max-h-[90vh] overflow-y-auto">
         <div>
-          <label htmlFor="detail-title" className="block text-xs text-neutral-500 mb-1">
+          <label htmlFor="detail-title" className="block text-xs text-[#5f5f5d] mb-1">
             Title
           </label>
           <input
@@ -103,12 +106,12 @@ export function TaskDetail({
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             onKeyDown={handleTitleKeyDown}
-            className="w-full rounded-lg bg-neutral-900 border border-neutral-800 px-4 py-3 text-sm text-white focus:border-neutral-600 focus:outline-none"
+            className={inputClass}
           />
         </div>
 
         <div>
-          <label htmlFor="detail-notes" className="block text-xs text-neutral-500 mb-1">
+          <label htmlFor="detail-notes" className="block text-xs text-[#5f5f5d] mb-1">
             Notes
           </label>
           <textarea
@@ -116,13 +119,13 @@ export function TaskDetail({
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             rows={3}
-            className="w-full rounded-lg bg-neutral-900 border border-neutral-800 px-4 py-3 text-sm text-neutral-300 focus:border-neutral-600 focus:outline-none resize-none"
+            className={`${inputClass} resize-none`}
           />
         </div>
 
         <div className="flex gap-3">
           <div className="flex-1">
-            <label htmlFor="detail-due" className="block text-xs text-neutral-500 mb-1">
+            <label htmlFor="detail-due" className="block text-xs text-[#5f5f5d] mb-1">
               Due date
             </label>
             <input
@@ -130,19 +133,19 @@ export function TaskDetail({
               type="date"
               value={dueDate}
               onChange={(e) => setDueDate(e.target.value)}
-              className="w-full rounded-lg bg-neutral-900 border border-neutral-800 px-4 py-3 text-sm text-neutral-300 focus:border-neutral-600 focus:outline-none"
+              className={inputClass}
             />
           </div>
 
           <div className="flex-1">
-            <label htmlFor="detail-priority" className="block text-xs text-neutral-500 mb-1">
+            <label htmlFor="detail-priority" className="block text-xs text-[#5f5f5d] mb-1">
               Priority
             </label>
             <select
               id="detail-priority"
               value={priority}
               onChange={(e) => setPriority(e.target.value as Priority)}
-              className="w-full rounded-lg bg-neutral-900 border border-neutral-800 px-4 py-3 text-sm text-neutral-300 focus:border-neutral-600 focus:outline-none"
+              className={inputClass}
             >
               {PRIORITIES.map((p) => (
                 <option key={p} value={p}>
@@ -154,14 +157,14 @@ export function TaskDetail({
         </div>
 
         <div>
-          <label htmlFor="detail-recurrence" className="block text-xs text-neutral-500 mb-1">
+          <label htmlFor="detail-recurrence" className="block text-xs text-[#5f5f5d] mb-1">
             Recurrence
           </label>
           <select
             id="detail-recurrence"
             value={recurrencePreset}
             onChange={(e) => setRecurrencePreset(e.target.value as RecurrencePreset | "")}
-            className="w-full rounded-lg bg-neutral-900 border border-neutral-800 px-4 py-3 text-sm text-neutral-300 focus:border-neutral-600 focus:outline-none"
+            className={inputClass}
           >
             <option value="">None</option>
             <option value="daily">Daily</option>
@@ -173,18 +176,18 @@ export function TaskDetail({
         {!isSubtask && (
           <div>
             <div className="flex justify-between items-center mb-2">
-              <span className="text-xs text-neutral-500">Subtasks</span>
+              <span className="text-xs text-[#5f5f5d]">Subtasks</span>
               {progress.total > 0 && (
-                <span className="text-xs text-neutral-400">
+                <span className="text-xs text-[#5f5f5d]">
                   {progress.done}/{progress.total} ({progress.percent}%)
                 </span>
               )}
             </div>
 
             {progress.total > 0 && (
-              <div className="w-full h-1 bg-neutral-800 rounded-full mb-3">
+              <div className="w-full h-1 bg-[rgba(28,28,28,0.08)] rounded-full mb-3">
                 <div
-                  className="h-1 bg-amber-500 rounded-full transition-all"
+                  className="h-1 bg-[#1c1c1c] rounded-full transition-all"
                   style={{ width: `${progress.percent}%` }}
                 />
               </div>
@@ -198,11 +201,11 @@ export function TaskDetail({
                     checked={subtask.completed}
                     onChange={() => onToggleSubtask(subtask.id)}
                     aria-label={`Mark "${subtask.title}" complete`}
-                    className="w-4 h-4 rounded border-neutral-600 bg-neutral-900 accent-amber-500 flex-shrink-0 cursor-pointer"
+                    className="w-4 h-4 rounded border-[#eceae4] bg-[#f7f4ed] accent-[#1c1c1c] flex-shrink-0 cursor-pointer"
                   />
                   <span
                     className={`flex-1 text-sm ${
-                      subtask.completed ? "line-through text-neutral-500" : "text-neutral-300"
+                      subtask.completed ? "line-through text-[#5f5f5d]" : "text-[#1c1c1c]"
                     }`}
                   >
                     {subtask.title}
@@ -210,7 +213,7 @@ export function TaskDetail({
                   <button
                     onClick={() => onDeleteSubtask(subtask.id)}
                     aria-label={`Remove subtask "${subtask.title}"`}
-                    className="flex-shrink-0 text-neutral-600 hover:text-red-400 transition-colors"
+                    className="flex-shrink-0 text-[rgba(28,28,28,0.3)] hover:text-red-500 transition-colors"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -237,11 +240,11 @@ export function TaskDetail({
                   if (e.key === "Enter") handleAddSubtask();
                   if (e.key === "Escape") setSubtaskInput("");
                 }}
-                className="flex-1 rounded-lg bg-neutral-900 border border-neutral-800 px-3 py-2 text-sm text-neutral-300 placeholder-neutral-600 focus:border-neutral-600 focus:outline-none"
+                className="flex-1 rounded-md bg-[#f7f4ed] border border-[#eceae4] px-3 py-2 text-sm text-[#1c1c1c] placeholder-[#5f5f5d] input-ring"
               />
               <button
                 onClick={handleAddSubtask}
-                className="rounded-lg bg-neutral-900 border border-neutral-800 px-3 py-2 text-sm text-neutral-400 hover:text-neutral-300 transition-colors"
+                className="rounded-md border border-[rgba(28,28,28,0.4)] px-3 py-2 text-sm text-[#1c1c1c] hover:bg-[rgba(28,28,28,0.04)] transition-colors"
               >
                 Add
               </button>
@@ -252,13 +255,13 @@ export function TaskDetail({
         <div className="flex gap-2 pt-2">
           <button
             onClick={handleSave}
-            className="rounded-lg bg-amber-500 text-black text-sm font-medium px-4 py-2 hover:bg-amber-400 transition-colors"
+            className="rounded-md bg-[#1c1c1c] text-[#fcfbf8] text-sm font-medium px-4 py-2 btn-inset transition-opacity"
           >
             Save
           </button>
           <button
             onClick={onClose}
-            className="rounded-lg text-neutral-400 text-sm px-4 py-2 hover:text-neutral-300 transition-colors"
+            className="rounded-md border border-[rgba(28,28,28,0.4)] text-[#1c1c1c] text-sm px-4 py-2 hover:bg-[rgba(28,28,28,0.04)] transition-colors"
           >
             Cancel
           </button>
@@ -267,7 +270,7 @@ export function TaskDetail({
               onDelete();
               onClose();
             }}
-            className="ml-auto rounded-lg text-neutral-500 text-sm px-4 py-2 hover:text-red-400 transition-colors"
+            className="ml-auto rounded-md text-[#5f5f5d] text-sm px-4 py-2 hover:text-red-500 transition-colors"
           >
             Delete task
           </button>

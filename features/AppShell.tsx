@@ -135,12 +135,12 @@ export function AppShell() {
     activeView === "stats" ? [] : views[activeView as ViewId];
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col">
+    <div className="min-h-screen bg-[#f7f4ed] text-[#1c1c1c] flex flex-col">
       <div className="flex-1 flex max-w-5xl w-full mx-auto px-4 py-8 gap-8">
         <Sidebar activeView={activeView} onSelect={setActiveView} />
 
         <main className="flex-1 min-w-0 pb-16 md:pb-0">
-          <h1 className="text-2xl font-semibold text-white mb-6">
+          <h1 className="text-2xl font-semibold text-[#1c1c1c] mb-6">
             {VIEW_LABELS[activeView]}
           </h1>
 
@@ -150,7 +150,7 @@ export function AppShell() {
               {[1, 2, 3].map((i) => (
                 <div
                   key={i}
-                  className="rounded-lg bg-[#141414] border border-neutral-800 p-4 h-12 animate-pulse"
+                  className="rounded-lg bg-[#f7f4ed] border border-[#eceae4] p-4 h-12 animate-pulse"
                 />
               ))}
             </div>
@@ -158,14 +158,14 @@ export function AppShell() {
 
           {/* Empty state / onboarding */}
           {hydrated && isEmpty && (
-            <div className="rounded-lg bg-[#141414] border border-neutral-800 p-8 text-center">
-              <p className="text-neutral-300 text-sm mb-1">No tasks yet.</p>
-              <p className="text-neutral-500 text-sm mb-6">
+            <div className="rounded-lg bg-[#f7f4ed] border border-[#eceae4] p-8 text-center">
+              <p className="text-[#1c1c1c] text-sm mb-1">No tasks yet.</p>
+              <p className="text-[#5f5f5d] text-sm mb-6">
                 Add your first task, or start with a few samples.
               </p>
               <button
                 onClick={handleAddSamples}
-                className="rounded-lg bg-amber-500 text-black text-sm font-medium px-4 py-2 hover:bg-amber-400 transition-colors"
+                className="rounded-md bg-[#1c1c1c] text-[#fcfbf8] text-sm font-medium px-4 py-2 btn-inset transition-opacity"
               >
                 Add sample tasks
               </button>
