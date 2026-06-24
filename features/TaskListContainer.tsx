@@ -6,6 +6,7 @@ import { TaskList } from "../components/TaskList";
 import { TaskDetail } from "../components/TaskDetail";
 import { filterTodos, type FilterCriteria } from "../lib/filter";
 import { sortTodos, type SortKey, type SortDirection } from "../lib/sort";
+import { subtaskProgress } from "../lib/progress";
 import type { Priority, Todo } from "../types/todo";
 
 interface TaskListContainerProps {
@@ -23,6 +24,9 @@ export function TaskListContainer({ todos, today }: TaskListContainerProps) {
   const [sortDir, setSortDir] = useState<SortDirection>("asc");
 
   const selectedTodo = selectedId ? state.todos.find((t) => t.id === selectedId) : null;
+  const selectedSubtasks = selectedTodo
+    ? state.todos.filter((t) => t.parentId === selectedTodo.id)
+    : [];
 
   function handleToggle(id: string) {
     dispatch({ type: "toggle", payload: { id, date: today } });
@@ -35,6 +39,21 @@ export function TaskListContainer({ todos, today }: TaskListContainerProps) {
   function handleDelete(id: string) {
     dispatch({ type: "delete", payload: { id } });
     if (selectedId === id) setSelectedId(null);
+  }
+
+  function handleAddSubtask(parentId: string, title: string) {
+    dispatch({
+      type: "add",
+      payload: {
+        id: crypto.randomUUID(),
+        title,
+        priority: "medium",
+        tags: [],
+        completed: false,
+        parentId,
+        createdAt: new Date().toISOString(),
+      },
+    });
   }
 
   function handleAdd(title: string) {
@@ -60,11 +79,19 @@ export function TaskListContainer({ todos, today }: TaskListContainerProps) {
     }
   }
 
+  // Only show top-level tasks in the main list; subtasks are shown in TaskDetail
+  const parentTodos = todos.filter((t) => !t.parentId);
+
   const criteria: FilterCriteria = {
     query: query || undefined,
     priority: priorityFilter || undefined,
   };
-  const displayTodos = sortTodos(filterTodos(todos, criteria), sortKey, sortDir);
+  const displayTodos = sortTodos(filterTodos(parentTodos, criteria), sortKey, sortDir);
+
+  const subtaskProgressMap: Record<string, ReturnType<typeof subtaskProgress>> = {};
+  for (const todo of displayTodos) {
+    subtaskProgressMap[todo.id] = subtaskProgress(todo.id, state.todos);
+  }
 
   return (
     <div className="space-y-3">
@@ -107,7 +134,7 @@ export function TaskListContainer({ todos, today }: TaskListContainerProps) {
         </button>
       </div>
 
-      {displayTodos.length === 0 && todos.length > 0 ? (
+      {displayTodos.length === 0 && parentTodos.length > 0 ? (
         <p className="text-neutral-500 text-sm">No tasks match your filters.</p>
       ) : displayTodos.length === 0 ? (
         <p className="text-neutral-500 text-sm">Nothing here.</p>
@@ -115,6 +142,7 @@ export function TaskListContainer({ todos, today }: TaskListContainerProps) {
         <TaskList
           todos={displayTodos}
           today={today}
+          subtaskProgressMap={subtaskProgressMap}
           onToggle={handleToggle}
           onSelect={setSelectedId}
           onDelete={handleDelete}
@@ -133,9 +161,13 @@ export function TaskListContainer({ todos, today }: TaskListContainerProps) {
       {selectedTodo && (
         <TaskDetail
           todo={selectedTodo}
+          subtasks={selectedSubtasks}
           onSave={(updates) => handleEdit(selectedTodo.id, updates)}
           onClose={() => setSelectedId(null)}
           onDelete={() => handleDelete(selectedTodo.id)}
+          onAddSubtask={(title) => handleAddSubtask(selectedTodo.id, title)}
+          onToggleSubtask={handleToggle}
+          onDeleteSubtask={handleDelete}
         />
       )}
     </div>

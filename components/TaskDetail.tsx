@@ -2,17 +2,31 @@
 
 import { useState, useEffect, useRef } from "react";
 import type { Priority, RecurrencePreset, Todo } from "../types/todo";
+import { subtaskProgress } from "../lib/progress";
 
 interface TaskDetailProps {
   todo: Todo;
+  subtasks: Todo[];
   onSave: (updates: Partial<Omit<Todo, "id">>) => void;
   onClose: () => void;
   onDelete: () => void;
+  onAddSubtask: (title: string) => void;
+  onToggleSubtask: (id: string) => void;
+  onDeleteSubtask: (id: string) => void;
 }
 
 const PRIORITIES: Priority[] = ["low", "medium", "high"];
 
-export function TaskDetail({ todo, onSave, onClose, onDelete }: TaskDetailProps) {
+export function TaskDetail({
+  todo,
+  subtasks,
+  onSave,
+  onClose,
+  onDelete,
+  onAddSubtask,
+  onToggleSubtask,
+  onDeleteSubtask,
+}: TaskDetailProps) {
   const [title, setTitle] = useState(todo.title);
   const [notes, setNotes] = useState(todo.notes ?? "");
   const [dueDate, setDueDate] = useState(todo.dueDate ?? "");
@@ -20,7 +34,11 @@ export function TaskDetail({ todo, onSave, onClose, onDelete }: TaskDetailProps)
   const [recurrencePreset, setRecurrencePreset] = useState<RecurrencePreset | "">(
     todo.recurrence?.preset ?? ""
   );
+  const [subtaskInput, setSubtaskInput] = useState("");
   const titleRef = useRef<HTMLInputElement>(null);
+
+  const progress = subtaskProgress(todo.id, subtasks);
+  const isSubtask = !!todo.parentId;
 
   useEffect(() => {
     titleRef.current?.focus();
@@ -41,6 +59,13 @@ export function TaskDetail({ todo, onSave, onClose, onDelete }: TaskDetailProps)
       seriesId,
     });
     onClose();
+  }
+
+  function handleAddSubtask() {
+    const trimmed = subtaskInput.trim();
+    if (!trimmed) return;
+    onAddSubtask(trimmed);
+    setSubtaskInput("");
   }
 
   function handleKeyDown(e: React.KeyboardEvent) {
@@ -66,7 +91,7 @@ export function TaskDetail({ todo, onSave, onClose, onDelete }: TaskDetailProps)
         aria-hidden="true"
       />
 
-      <div className="relative z-10 w-full max-w-md rounded-lg bg-[#141414] border border-neutral-800 p-6 space-y-4">
+      <div className="relative z-10 w-full max-w-md rounded-lg bg-[#141414] border border-neutral-800 p-6 space-y-4 max-h-[90vh] overflow-y-auto">
         <div>
           <label htmlFor="detail-title" className="block text-xs text-neutral-500 mb-1">
             Title
@@ -144,6 +169,85 @@ export function TaskDetail({ todo, onSave, onClose, onDelete }: TaskDetailProps)
             <option value="monthly">Monthly</option>
           </select>
         </div>
+
+        {!isSubtask && (
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-xs text-neutral-500">Subtasks</span>
+              {progress.total > 0 && (
+                <span className="text-xs text-neutral-400">
+                  {progress.done}/{progress.total} ({progress.percent}%)
+                </span>
+              )}
+            </div>
+
+            {progress.total > 0 && (
+              <div className="w-full h-1 bg-neutral-800 rounded-full mb-3">
+                <div
+                  className="h-1 bg-amber-500 rounded-full transition-all"
+                  style={{ width: `${progress.percent}%` }}
+                />
+              </div>
+            )}
+
+            <div className="space-y-1 mb-2">
+              {subtasks.map((subtask) => (
+                <div key={subtask.id} className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={subtask.completed}
+                    onChange={() => onToggleSubtask(subtask.id)}
+                    aria-label={`Mark "${subtask.title}" complete`}
+                    className="w-4 h-4 rounded border-neutral-600 bg-neutral-900 accent-amber-500 flex-shrink-0 cursor-pointer"
+                  />
+                  <span
+                    className={`flex-1 text-sm ${
+                      subtask.completed ? "line-through text-neutral-500" : "text-neutral-300"
+                    }`}
+                  >
+                    {subtask.title}
+                  </span>
+                  <button
+                    onClick={() => onDeleteSubtask(subtask.id)}
+                    aria-label={`Remove subtask "${subtask.title}"`}
+                    className="flex-shrink-0 text-neutral-600 hover:text-red-400 transition-colors"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={1.5}
+                      className="w-4 h-4"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex gap-2">
+              <input
+                aria-label="New subtask"
+                placeholder="Add a subtask..."
+                value={subtaskInput}
+                onChange={(e) => setSubtaskInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") handleAddSubtask();
+                  if (e.key === "Escape") setSubtaskInput("");
+                }}
+                className="flex-1 rounded-lg bg-neutral-900 border border-neutral-800 px-3 py-2 text-sm text-neutral-300 placeholder-neutral-600 focus:border-neutral-600 focus:outline-none"
+              />
+              <button
+                onClick={handleAddSubtask}
+                className="rounded-lg bg-neutral-900 border border-neutral-800 px-3 py-2 text-sm text-neutral-400 hover:text-neutral-300 transition-colors"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+        )}
 
         <div className="flex gap-2 pt-2">
           <button

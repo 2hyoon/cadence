@@ -1,11 +1,13 @@
 "use client";
 
 import { dueStatus } from "../lib/views";
+import type { SubtaskProgress } from "../lib/progress";
 import type { Todo } from "../types/todo";
 
 interface TaskRowProps {
   todo: Todo;
   today: string;
+  subtaskProgress?: SubtaskProgress;
   onToggle: () => void;
   onSelect: () => void;
   onDelete: () => void;
@@ -23,7 +25,7 @@ const BADGE_CLASS: Record<string, string> = {
   upcoming: "text-neutral-400",
 };
 
-export function TaskRow({ todo, today, onToggle, onSelect, onDelete }: TaskRowProps) {
+export function TaskRow({ todo, today, subtaskProgress, onToggle, onSelect, onDelete }: TaskRowProps) {
   const status = dueStatus(todo.dueDate, today);
 
   return (
@@ -51,6 +53,12 @@ export function TaskRow({ todo, today, onToggle, onSelect, onDelete }: TaskRowPr
       {todo.recurrence && (
         <span className="text-xs text-neutral-500 flex-shrink-0" title="Recurring">
           ↻
+        </span>
+      )}
+
+      {subtaskProgress && subtaskProgress.total > 0 && (
+        <span className="text-xs text-neutral-500 flex-shrink-0" title="Subtask progress">
+          {subtaskProgress.done}/{subtaskProgress.total}
         </span>
       )}
 
