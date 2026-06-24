@@ -4,7 +4,9 @@ import { useState } from "react";
 import { useTodos } from "../store/TodoProvider";
 import { TaskList } from "../components/TaskList";
 import { TaskDetail } from "../components/TaskDetail";
-import type { Todo } from "../types/todo";
+import { filterTodos, type FilterCriteria } from "../lib/filter";
+import { sortTodos, type SortKey, type SortDirection } from "../lib/sort";
+import type { Priority, Todo } from "../types/todo";
 
 interface TaskListContainerProps {
   todos: Todo[];
@@ -15,6 +17,10 @@ export function TaskListContainer({ todos, today }: TaskListContainerProps) {
   const { state, dispatch } = useTodos();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [addValue, setAddValue] = useState("");
+  const [query, setQuery] = useState("");
+  const [priorityFilter, setPriorityFilter] = useState<Priority | "">("");
+  const [sortKey, setSortKey] = useState<SortKey>("dueDate");
+  const [sortDir, setSortDir] = useState<SortDirection>("asc");
 
   const selectedTodo = selectedId ? state.todos.find((t) => t.id === selectedId) : null;
 
@@ -54,13 +60,60 @@ export function TaskListContainer({ todos, today }: TaskListContainerProps) {
     }
   }
 
+  const criteria: FilterCriteria = {
+    query: query || undefined,
+    priority: priorityFilter || undefined,
+  };
+  const displayTodos = sortTodos(filterTodos(todos, criteria), sortKey, sortDir);
+
   return (
     <div className="space-y-3">
-      {todos.length === 0 ? (
+      {/* Search / filter / sort bar */}
+      <div className="flex flex-wrap gap-2">
+        <input
+          aria-label="Search tasks"
+          placeholder="Search..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="flex-1 min-w-0 rounded-lg bg-neutral-900 border border-neutral-800 px-3 py-2 text-sm text-neutral-300 placeholder-neutral-600 focus:border-neutral-600 focus:outline-none"
+        />
+        <select
+          aria-label="Filter by priority"
+          value={priorityFilter}
+          onChange={(e) => setPriorityFilter(e.target.value as Priority | "")}
+          className="rounded-lg bg-neutral-900 border border-neutral-800 px-3 py-2 text-sm text-neutral-300 focus:border-neutral-600 focus:outline-none"
+        >
+          <option value="">All priorities</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+        <select
+          aria-label="Sort by"
+          value={sortKey}
+          onChange={(e) => setSortKey(e.target.value as SortKey)}
+          className="rounded-lg bg-neutral-900 border border-neutral-800 px-3 py-2 text-sm text-neutral-300 focus:border-neutral-600 focus:outline-none"
+        >
+          <option value="dueDate">Due date</option>
+          <option value="priority">Priority</option>
+          <option value="createdAt">Created</option>
+        </select>
+        <button
+          aria-label={sortDir === "asc" ? "Sort ascending" : "Sort descending"}
+          onClick={() => setSortDir((d) => (d === "asc" ? "desc" : "asc"))}
+          className="rounded-lg bg-neutral-900 border border-neutral-800 px-3 py-2 text-sm text-neutral-400 hover:text-neutral-300 focus:outline-none"
+        >
+          {sortDir === "asc" ? "↑" : "↓"}
+        </button>
+      </div>
+
+      {displayTodos.length === 0 && todos.length > 0 ? (
+        <p className="text-neutral-500 text-sm">No tasks match your filters.</p>
+      ) : displayTodos.length === 0 ? (
         <p className="text-neutral-500 text-sm">Nothing here.</p>
       ) : (
         <TaskList
-          todos={todos}
+          todos={displayTodos}
           today={today}
           onToggle={handleToggle}
           onSelect={setSelectedId}
