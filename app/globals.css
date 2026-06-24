@@ -20,6 +20,11 @@
   input[type="date"]::-webkit-calendar-picker-indicator {
     opacity: 0.4;
   }
+  /* Unified keyboard focus ring across every interactive control (opaque #3b82f6, ~3.3:1 on #f7f4ed per WCAG 1.4.11) */
+  :where(button, a, input, select, textarea, [tabindex]):focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px #3b82f6;
+  }
 }
 
 @layer utilities {
@@ -34,11 +39,9 @@
   .btn-inset:active {
     opacity: 0.8;
   }
-  /* Design system focus ring: blue shadow per --shadow-ring token */
+  /* Border darkens on focus; the ring itself is centralized below */
   .input-ring:focus {
-    outline: none;
     border-color: rgba(28, 28, 28, 0.4);
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
   }
   /* Custom select chevron inset 0.75rem from the right edge (matches px-3 left padding) */
   .select-field {

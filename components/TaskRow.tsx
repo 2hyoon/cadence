@@ -34,8 +34,8 @@ export function TaskRow({ todo, today, subtaskProgress, isFocused, rowRef, onTog
     <div
       ref={rowRef}
       className={[
-        "rounded-lg bg-[#f7f4ed] border p-4 flex items-center gap-3",
-        isFocused ? "border-[rgba(28,28,28,0.4)]" : "border-[#eceae4]",
+        "rounded-lg border border-[#eceae4] p-4 flex items-center gap-3",
+        isFocused ? "bg-[rgba(28,28,28,0.06)]" : "bg-[#f7f4ed]",
       ].join(" ")}
     >
       <input
