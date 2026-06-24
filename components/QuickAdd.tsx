@@ -27,6 +27,9 @@ export function QuickAdd({ open, onClose, onSubmit, initialDraft }: QuickAddProp
   const [priority, setPriority] = useState<Priority>(initialDraft?.priority ?? "medium");
   const [tagsRaw, setTagsRaw] = useState(initialDraft?.tags?.join(", ") ?? "");
   const [titleError, setTitleError] = useState(false);
+  const [nlText, setNlText] = useState("");
+  const [nlLoading, setNlLoading] = useState(false);
+  const [nlNotice, setNlNotice] = useState<string | null>(null);
   const titleRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -36,9 +39,38 @@ export function QuickAdd({ open, onClose, onSubmit, initialDraft }: QuickAddProp
       setPriority(initialDraft?.priority ?? "medium");
       setTagsRaw(initialDraft?.tags?.join(", ") ?? "");
       setTitleError(false);
+      setNlText("");
+      setNlLoading(false);
+      setNlNotice(null);
       setTimeout(() => titleRef.current?.focus(), 0);
     }
   }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  async function handleParse() {
+    const text = nlText.trim();
+    if (!text || nlLoading) return;
+    setNlLoading(true);
+    setNlNotice(null);
+    try {
+      const res = await fetch("/api/parse", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
+      });
+      if (!res.ok) throw new Error("parse failed");
+      const draft = (await res.json()) as Partial<QuickAddDraft>;
+      if (draft.title) setTitle(draft.title);
+      if (draft.dueDate) setDueDate(draft.dueDate);
+      if (draft.priority) setPriority(draft.priority);
+      if (Array.isArray(draft.tags) && draft.tags.length > 0)
+        setTagsRaw(draft.tags.join(", "));
+      setTimeout(() => titleRef.current?.focus(), 0);
+    } catch {
+      setNlNotice("AI parsing unavailable — fill in the fields below.");
+    } finally {
+      setNlLoading(false);
+    }
+  }
 
   function handleSubmit() {
     const trimmed = title.trim();
@@ -83,6 +115,35 @@ export function QuickAdd({ open, onClose, onSubmit, initialDraft }: QuickAddProp
         className="relative z-10 w-full max-w-md rounded-lg bg-[#141414] border border-neutral-800 p-6 space-y-4 animate-slide-up"
       >
         <h2 className="text-sm font-medium text-neutral-300">Quick Add</h2>
+
+        <div>
+          <div className="flex gap-2">
+            <input
+              aria-label="Describe task naturally"
+              placeholder="Describe task naturally (AI)"
+              value={nlText}
+              onChange={(e) => setNlText(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleParse();
+                }
+              }}
+              disabled={nlLoading}
+              className="flex-1 rounded-lg bg-neutral-900 border border-neutral-800 px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-600 disabled:opacity-50"
+            />
+            <button
+              onClick={handleParse}
+              disabled={nlLoading || !nlText.trim()}
+              className="rounded-lg border border-neutral-700 text-neutral-400 text-sm px-3 py-2 hover:text-neutral-300 hover:border-neutral-600 disabled:opacity-40 transition-colors"
+            >
+              {nlLoading ? "Parsing..." : "Parse"}
+            </button>
+          </div>
+          {nlNotice && (
+            <p className="mt-1 text-xs text-neutral-500">{nlNotice}</p>
+          )}
+        </div>
 
         <div>
           <input
