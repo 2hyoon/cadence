@@ -174,7 +174,7 @@ export function AppShell() {
 
           {/* View content */}
           {hydrated && activeView !== "stats" && (
-            <TaskListContainer todos={currentList} today={today} />
+            <TaskListContainer todos={currentList} today={today} hideAdd={activeView === "completed"} />
           )}
 
           {/* Stats dashboard */}

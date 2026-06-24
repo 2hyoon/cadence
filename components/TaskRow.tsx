@@ -71,7 +71,7 @@ export function TaskRow({ todo, today, subtaskProgress, isFocused, rowRef, onTog
       )}
 
       {status !== "none" && (
-        <span className={`text-xs flex-shrink-0 ${BADGE_CLASS[status]}`}>
+        <span className={`text-xs flex-shrink-0 ${todo.completed ? "text-[#5f5f5d]" : BADGE_CLASS[status]}`}>
           {todo.dueDate}
         </span>
       )}

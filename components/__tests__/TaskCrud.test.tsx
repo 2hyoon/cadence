@@ -126,7 +126,7 @@ describe("TaskRow due-date badge", () => {
     expect(badge.className).toMatch(/red/);
   });
 
-  it("today date → amber class", () => {
+  it("today date → today class", () => {
     render(
       <TaskRow
         todo={makeTodo({ dueDate: TODAY })}
@@ -137,10 +137,10 @@ describe("TaskRow due-date badge", () => {
       />
     );
     const badge = screen.getByText(TODAY);
-    expect(badge.className).toMatch(/amber/);
+    expect(badge.className).toMatch(/#1c1c1c/);
   });
 
-  it("upcoming date → neutral class", () => {
+  it("upcoming date → upcoming class", () => {
     render(
       <TaskRow
         todo={makeTodo({ dueDate: FUTURE })}
@@ -151,6 +151,6 @@ describe("TaskRow due-date badge", () => {
       />
     );
     const badge = screen.getByText(FUTURE);
-    expect(badge.className).toMatch(/neutral/);
+    expect(badge.className).toMatch(/#5f5f5d/);
   });
 });

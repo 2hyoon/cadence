@@ -12,9 +12,10 @@ import type { Priority, Todo } from "../types/todo";
 interface TaskListContainerProps {
   todos: Todo[];
   today: string;
+  hideAdd?: boolean;
 }
 
-export function TaskListContainer({ todos, today }: TaskListContainerProps) {
+export function TaskListContainer({ todos, today, hideAdd = false }: TaskListContainerProps) {
   const { state, dispatch } = useTodos();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [addValue, setAddValue] = useState("");
@@ -232,15 +233,17 @@ export function TaskListContainer({ todos, today }: TaskListContainerProps) {
         />
       )}
 
-      <input
-        aria-label="New task"
-        placeholder={addParsing ? "Parsing…" : "Add a task…"}
-        value={addValue}
-        onChange={(e) => setAddValue(e.target.value)}
-        onKeyDown={handleAddKeyDown}
-        disabled={addParsing}
-        className="w-full rounded-lg bg-neutral-900 border border-neutral-800 px-4 py-3 text-sm text-neutral-300 placeholder-neutral-600 focus:border-neutral-600 focus:outline-none disabled:opacity-50"
-      />
+      {!hideAdd && (
+        <input
+          aria-label="New task"
+          placeholder={addParsing ? "Parsing…" : "Add a task…"}
+          value={addValue}
+          onChange={(e) => setAddValue(e.target.value)}
+          onKeyDown={handleAddKeyDown}
+          disabled={addParsing}
+          className="w-full rounded-lg bg-neutral-900 border border-neutral-800 px-4 py-3 text-sm text-neutral-300 placeholder-neutral-600 focus:border-neutral-600 focus:outline-none disabled:opacity-50"
+        />
+      )}
 
       {selectedTodo && (
         <TaskDetail
