@@ -16,9 +16,9 @@ interface TaskRowProps {
 }
 
 const PRIORITY_DOT: Record<string, string> = {
-  high: "bg-red-500",
-  medium: "bg-[#1c1c1c]",
-  low: "bg-[rgba(28,28,28,0.3)]",
+  high: "bg-red-500/90",
+  medium: "bg-blue-500/70",
+  low: "bg-[#64748b]/70",
 };
 
 const BADGE_CLASS: Record<string, string> = {
