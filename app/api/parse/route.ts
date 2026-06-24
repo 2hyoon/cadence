@@ -98,7 +98,8 @@ Task: ${text}`;
 
   let parsed: unknown;
   try {
-    parsed = JSON.parse(content.text.trim());
+    const raw = content.text.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "");
+    parsed = JSON.parse(raw);
   } catch {
     return NextResponse.json({ error: "AI returned invalid JSON" }, { status: 502 });
   }

@@ -18,6 +18,7 @@ export function TaskListContainer({ todos, today }: TaskListContainerProps) {
   const { state, dispatch } = useTodos();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [addValue, setAddValue] = useState("");
+  const [addParsing, setAddParsing] = useState(false);
   const [query, setQuery] = useState("");
   const [priorityFilter, setPriorityFilter] = useState<Priority | "">("");
   const [sortKey, setSortKey] = useState<SortKey>("dueDate");
@@ -89,10 +90,39 @@ export function TaskListContainer({ todos, today }: TaskListContainerProps) {
     });
   }
 
-  function handleAddKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === "Enter" && addValue.trim()) {
-      handleAdd(addValue.trim());
+  async function handleAddKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === "Enter" && addValue.trim() && !addParsing) {
+      const text = addValue.trim();
       setAddValue("");
+      setAddParsing(true);
+      try {
+        const res = await fetch("/api/parse", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text }),
+        });
+        if (res.ok) {
+          const draft = await res.json() as { title?: string; dueDate?: string; priority?: Priority; tags?: string[] };
+          dispatch({
+            type: "add",
+            payload: {
+              id: crypto.randomUUID(),
+              title: draft.title || text,
+              priority: draft.priority ?? "medium",
+              tags: draft.tags ?? [],
+              completed: false,
+              dueDate: draft.dueDate,
+              createdAt: new Date().toISOString(),
+            },
+          });
+        } else {
+          handleAdd(text);
+        }
+      } catch {
+        handleAdd(text);
+      } finally {
+        setAddParsing(false);
+      }
     } else if (e.key === "Escape") {
       setAddValue("");
     }
@@ -170,11 +200,12 @@ export function TaskListContainer({ todos, today }: TaskListContainerProps) {
 
       <input
         aria-label="New task"
-        placeholder="Add a task..."
+        placeholder={addParsing ? "Parsing…" : "Add a task…"}
         value={addValue}
         onChange={(e) => setAddValue(e.target.value)}
         onKeyDown={handleAddKeyDown}
-        className="w-full rounded-lg bg-neutral-900 border border-neutral-800 px-4 py-3 text-sm text-neutral-300 placeholder-neutral-600 focus:border-neutral-600 focus:outline-none"
+        disabled={addParsing}
+        className="w-full rounded-lg bg-neutral-900 border border-neutral-800 px-4 py-3 text-sm text-neutral-300 placeholder-neutral-600 focus:border-neutral-600 focus:outline-none disabled:opacity-50"
       />
 
       {selectedTodo && (
