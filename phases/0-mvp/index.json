@@ -45,10 +45,10 @@
     {
       "step": 5,
       "name": "todo-crud-ui",
-      "status": "error",
-      "started_at": "2026-06-24T08:11:13+0900",
-      "error_message": "[Failed after 3 attempts] Step did not update status",
-      "failed_at": "2026-06-24T08:11:17+0900"
+      "status": "completed",
+      "started_at": "2026-06-24T11:42:06+0900",
+      "summary": "TaskRow (checkbox, title button, priority dot, dueStatus badge: overdue=red/today=amber/upcoming=neutral), TaskList, TaskDetail modal (title/notes/dueDate/priority fields; Enter=save, Esc=cancel) in components/; TaskListContainer (store wiring: add/edit/toggle/delete + inline 'New task' input) in features/; AppShell updated to render TaskListContainer always when hydrated; 7 RTL tests cover add/toggle/edit/delete CRUD and all 3 badge color variants; 69 tests total green.",
+      "completed_at": "2026-06-24T11:48:51+0900"
     },
     {
       "step": 6,
