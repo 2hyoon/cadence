@@ -2,7 +2,23 @@
   "project": "cadence",
   "phase": "2-ai",
   "steps": [
-    { "step": 0, "name": "ai-parse-api", "status": "pending" },
-    { "step": 1, "name": "quick-add-ai", "status": "pending" }
-  ]
+    {
+      "step": 0,
+      "name": "ai-parse-api",
+      "status": "completed",
+      "started_at": "2026-06-24T20:54:46+0900",
+      "completed_at": "2026-06-24T20:58:52+0900",
+      "summary": "Created POST /api/parse route handler at app/api/parse/route.ts. Accepts { text: string } (max 500 chars), calls Claude claude-haiku-4-5, hand-validates the JSON response (non-empty title required; dueDate dropped if not YYYY-MM-DD; priority coerced to low|medium|high with medium fallback; tags filtered to string[]). Returns { title, dueDate?, priority, tags }. Error responses: 400 for bad input, 401/429 forwarded from the AI call, 502 for network/malformed-JSON errors. AC tests in app/api/parse/route.test.ts mock @anthropic-ai/sdk via vi.hoisted + vi.mock — 13 tests, all pass without ANTHROPIC_API_KEY. Model used: claude-haiku-4-5."
+    },
+    {
+      "step": 1,
+      "name": "quick-add-ai",
+      "status": "completed",
+      "started_at": "2026-06-24T20:58:52+0900",
+      "completed_at": "2026-06-24T21:02:24+0900",
+      "summary": "Added NL parse input to QuickAdd modal: user types free text and clicks Parse (or presses Enter), which POSTs to /api/parse and pre-fills title/dueDate/priority/tags in the existing manual form for confirmation before add. Loading state shown in Parse button text. On any fetch/API error, a non-alarming notice appears and the manual fields remain fully usable (graceful fallback). Fetch is mocked in 3 new RTL tests (success pre-fills and adds; error falls back to manual; loading state renders). All 170 tests pass, lint clean, build succeeds."
+    }
+  ],
+  "created_at": "2026-06-24T12:32:53+0900",
+  "completed_at": "2026-06-24T21:02:24+0900"
 }

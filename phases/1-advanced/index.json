@@ -2,9 +2,39 @@
   "project": "cadence",
   "phase": "1-advanced",
   "steps": [
-    { "step": 0, "name": "recurrence", "status": "pending" },
-    { "step": 1, "name": "subtasks", "status": "pending" },
-    { "step": 2, "name": "history", "status": "pending" },
-    { "step": 3, "name": "stats", "status": "pending" }
-  ]
+    {
+      "step": 0,
+      "name": "recurrence",
+      "status": "completed",
+      "started_at": "2026-06-24T11:55:56+0900",
+      "summary": "Added nextDueDate(dueDate, preset) in lib/recurrence.ts (daily/weekly/monthly with UTC month-end clamp); extended toggle action payload with optional date field; reducer rolls recurring tasks forward in-place and appends CompletionLogEntry{seriesId, date} using todo.dueDate ?? action.date; added ↻ indicator in TaskRow; added recurrence preset select in TaskDetail with auto-generated seriesId on first set.",
+      "completed_at": "2026-06-24T11:59:48+0900"
+    },
+    {
+      "step": 1,
+      "name": "subtasks",
+      "status": "completed",
+      "started_at": "2026-06-24T11:59:48+0900",
+      "summary": "Added subtaskProgress(parentId, todos) in lib/progress.ts (zero-guards divide-by-zero); add-subtask action creator in TaskListContainer dispatches {type:'add', payload:{...parentId}}; cascade delete unchanged (reducer.ts already filters parentId); TaskDetail receives subtasks:Todo[] + onAddSubtask/onToggleSubtask/onDeleteSubtask props and renders subtask list with progress bar+percent (hidden when todo.parentId is set, enforcing one level); TaskRow shows done/total badge via optional subtaskProgress prop; TaskList threads subtaskProgressMap from TaskListContainer; main list filters out subtasks (parentTodos).",
+      "completed_at": "2026-06-24T12:05:27+0900"
+    },
+    {
+      "step": 2,
+      "name": "history",
+      "status": "completed",
+      "started_at": "2026-06-24T12:05:28+0900",
+      "summary": "History<T> API in lib/history.ts (record/undo/redo, past capped at 100); historyReducer in store/historyReducer.ts wraps app reducer — add/edit/toggle/delete are recorded, hydrate is not; TodoProvider uses historyReducer and exposes canUndo/canRedo; persisted shape unchanged (saveState(history.present)); ⌘Z/⌘⇧Z/Ctrl+Y wired in AppShell; undo toast on delete/complete in TaskListContainer.",
+      "completed_at": "2026-06-24T12:12:41+0900"
+    },
+    {
+      "step": 3,
+      "name": "stats",
+      "status": "completed",
+      "started_at": "2026-06-24T12:12:41+0900",
+      "summary": "computeStats(state, today, windowDays=7): Stats in lib/stats.ts — Stats shape: {completionRate, completedCount, totalCount, recentDays: DayCount[], recentTotal, windowDays}; completionRate = done/total top-level todos (0 on empty); recentDays groups completionLog by date over a rolling window (inclusive both ends, default 7); clock never read inside lib/; StatsView renders completion rate (amber accent, progress bar) + 7-day bar chart; wired into AppShell replacing placeholder.",
+      "completed_at": "2026-06-24T12:15:04+0900"
+    }
+  ],
+  "created_at": "2026-06-24T11:55:56+0900",
+  "completed_at": "2026-06-24T12:15:04+0900"
 }

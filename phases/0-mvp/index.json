@@ -2,13 +2,71 @@
   "project": "cadence",
   "phase": "0-mvp",
   "steps": [
-    { "step": 0, "name": "project-setup", "status": "pending" },
-    { "step": 1, "name": "core-types", "status": "pending" },
-    { "step": 2, "name": "persistence", "status": "pending" },
-    { "step": 3, "name": "store", "status": "pending" },
-    { "step": 4, "name": "app-shell-views", "status": "pending" },
-    { "step": 5, "name": "todo-crud-ui", "status": "pending" },
-    { "step": 6, "name": "quick-add", "status": "pending" },
-    { "step": 7, "name": "filter-sort-search", "status": "pending" }
-  ]
+    {
+      "step": 0,
+      "name": "project-setup",
+      "status": "completed",
+      "started_at": "2026-06-24T07:58:22+0900",
+      "summary": "Initialized Next.js 15 + TypeScript strict + Tailwind CSS v3 + Vitest 2 (jsdom) + ESLint at repo root; npm/vitest run; one smoke test green.",
+      "completed_at": "2026-06-24T08:02:07+0900"
+    },
+    {
+      "step": 1,
+      "name": "core-types",
+      "status": "completed",
+      "started_at": "2026-06-24T08:02:07+0900",
+      "summary": "Defined domain types (Priority, Tag, RecurrencePreset, RecurrenceRule, Todo, CompletionLogEntry, AppState) and type guards (isTodo, isAppState) in types/todo.ts; 23 guard unit tests all green.",
+      "completed_at": "2026-06-24T08:03:35+0900"
+    },
+    {
+      "step": 2,
+      "name": "persistence",
+      "status": "completed",
+      "started_at": "2026-06-24T08:03:35+0900",
+      "summary": "Created persistence/storage.ts with STORAGE_KEY/STORAGE_VERSION envelope, loadState/saveState/emptyState; SSR-safe (typeof window guard), absorbs all errors (corrupt JSON, version mismatch, isAppState failure, quota-exceeded); localStorage mocked via globalThis in 10 unit tests.",
+      "completed_at": "2026-06-24T08:04:56+0900"
+    },
+    {
+      "step": 3,
+      "name": "store",
+      "status": "completed",
+      "started_at": "2026-06-24T08:04:57+0900",
+      "summary": "Pure reducer (actions: add/edit/toggle/delete/hydrate; delete cascades to subtasks by parentId) in store/reducer.ts; TodoProvider client component with client-only hydration and persist-on-change effects in store/TodoProvider.tsx; useTodos() hook throws outside provider; hydrated boolean exposed for skeleton UI; 13 reducer unit tests all green.",
+      "completed_at": "2026-06-24T08:07:36+0900"
+    },
+    {
+      "step": 4,
+      "name": "app-shell-views",
+      "status": "completed",
+      "started_at": "2026-06-24T08:07:36+0900",
+      "summary": "ViewId ('today'|'upcoming'|'all'|'completed') + classify(todos,today)/dueStatus(dueDate,today) in lib/views.ts (pure, string-compare); AppShell feature in features/AppShell.tsx (getTodayString helper, empty-state onboarding, skeleton); Sidebar in components/Sidebar.tsx (desktop nav + mobile bottom tab bar); TodoProvider mounted in app/layout.tsx; 12 lib unit tests + 3 RTL shell tests all green.",
+      "completed_at": "2026-06-24T08:11:13+0900"
+    },
+    {
+      "step": 5,
+      "name": "todo-crud-ui",
+      "status": "completed",
+      "started_at": "2026-06-24T11:42:06+0900",
+      "summary": "TaskRow (checkbox, title button, priority dot, dueStatus badge: overdue=red/today=amber/upcoming=neutral), TaskList, TaskDetail modal (title/notes/dueDate/priority fields; Enter=save, Esc=cancel) in components/; TaskListContainer (store wiring: add/edit/toggle/delete + inline 'New task' input) in features/; AppShell updated to render TaskListContainer always when hydrated; 7 RTL tests cover add/toggle/edit/delete CRUD and all 3 badge color variants; 69 tests total green.",
+      "completed_at": "2026-06-24T11:48:51+0900"
+    },
+    {
+      "step": 6,
+      "name": "quick-add",
+      "status": "completed",
+      "started_at": "2026-06-24T11:48:51+0900",
+      "summary": "QuickAdd modal (components/QuickAdd.tsx) with title/dueDate/priority/tags fields and slide-up animation; global ⌘K/Ctrl+K listener wired in features/AppShell.tsx via useEffect (cleaned up on unmount); draft-submit seam (QuickAddDraft + onSubmit prop) ready for phase 2 AI pre-fill; 5 RTL tests cover shortcut open (⌘K and Ctrl+K), Esc close, submit+close, empty-title rejection; 74 tests total green.",
+      "completed_at": "2026-06-24T11:51:31+0900"
+    },
+    {
+      "step": 7,
+      "name": "filter-sort-search",
+      "status": "completed",
+      "started_at": "2026-06-24T11:51:31+0900",
+      "summary": "Pure lib/filter.ts (FilterCriteria: query/priority/tag → filterTodos(todos, criteria)) and lib/sort.ts (SortKey: dueDate|priority|createdAt, SortDirection: asc|desc → sortTodos(todos, key, dir), stable, no mutation, undefined dueDates always last); search/filter/sort bar (query input, priority select, sort-key select, sort-dir toggle) in features/TaskListContainer.tsx, state local to container; 21 new unit tests (12 filter + 9 sort); 95 tests total green.",
+      "completed_at": "2026-06-24T11:54:14+0900"
+    }
+  ],
+  "created_at": "2026-06-24T07:58:22+0900",
+  "completed_at": "2026-06-24T11:54:14+0900"
 }
