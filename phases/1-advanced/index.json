@@ -21,7 +21,10 @@
     {
       "step": 2,
       "name": "history",
-      "status": "pending"
+      "status": "completed",
+      "started_at": "2026-06-24T12:05:28+0900",
+      "summary": "History<T> API in lib/history.ts (record/undo/redo, past capped at 100); historyReducer in store/historyReducer.ts wraps app reducer — add/edit/toggle/delete are recorded, hydrate is not; TodoProvider uses historyReducer and exposes canUndo/canRedo; persisted shape unchanged (saveState(history.present)); ⌘Z/⌘⇧Z/Ctrl+Y wired in AppShell; undo toast on delete/complete in TaskListContainer.",
+      "completed_at": "2026-06-24T12:12:41+0900"
     },
     {
       "step": 3,
