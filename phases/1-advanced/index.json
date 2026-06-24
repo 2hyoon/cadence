@@ -13,7 +13,10 @@
     {
       "step": 1,
       "name": "subtasks",
-      "status": "pending"
+      "status": "completed",
+      "started_at": "2026-06-24T11:59:48+0900",
+      "summary": "Added subtaskProgress(parentId, todos) in lib/progress.ts (zero-guards divide-by-zero); add-subtask action creator in TaskListContainer dispatches {type:'add', payload:{...parentId}}; cascade delete unchanged (reducer.ts already filters parentId); TaskDetail receives subtasks:Todo[] + onAddSubtask/onToggleSubtask/onDeleteSubtask props and renders subtask list with progress bar+percent (hidden when todo.parentId is set, enforcing one level); TaskRow shows done/total badge via optional subtaskProgress prop; TaskList threads subtaskProgressMap from TaskListContainer; main list filters out subtasks (parentTodos).",
+      "completed_at": "2026-06-24T12:05:27+0900"
     },
     {
       "step": 2,
