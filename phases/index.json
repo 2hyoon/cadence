@@ -13,7 +13,8 @@
     },
     {
       "dir": "2-ai",
-      "status": "pending"
+      "status": "completed",
+      "completed_at": "2026-06-24T21:02:24+0900"
     }
   ]
 }
