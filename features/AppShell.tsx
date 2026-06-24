@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useTodos } from "../store/TodoProvider";
 import { classify, type ViewId } from "../lib/views";
 import { Sidebar } from "../components/Sidebar";
+import { TaskListContainer } from "./TaskListContainer";
 import type { Todo } from "../types/todo";
 
 type AnyViewId = ViewId | "stats";
@@ -119,23 +120,8 @@ export function AppShell() {
           )}
 
           {/* View content */}
-          {hydrated && !isEmpty && activeView !== "stats" && (
-            <div className="space-y-3">
-              {currentList.length === 0 ? (
-                <p className="text-neutral-500 text-sm">
-                  Nothing here.
-                </p>
-              ) : (
-                currentList.map((todo) => (
-                  <div
-                    key={todo.id}
-                    className="rounded-lg bg-[#141414] border border-neutral-800 p-4 text-sm text-neutral-300"
-                  >
-                    {todo.title}
-                  </div>
-                ))
-              )}
-            </div>
+          {hydrated && activeView !== "stats" && (
+            <TaskListContainer todos={currentList} today={today} />
           )}
 
           {/* Stats placeholder */}

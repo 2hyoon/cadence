@@ -1,7 +1,17 @@
 {
   "phases": [
-    { "dir": "0-mvp", "status": "pending" },
-    { "dir": "1-advanced", "status": "pending" },
-    { "dir": "2-ai", "status": "pending" }
+    {
+      "dir": "0-mvp",
+      "status": "error",
+      "failed_at": "2026-06-24T08:11:17+0900"
+    },
+    {
+      "dir": "1-advanced",
+      "status": "pending"
+    },
+    {
+      "dir": "2-ai",
+      "status": "pending"
+    }
   ]
 }
