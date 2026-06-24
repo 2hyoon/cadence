@@ -40,4 +40,13 @@
     border-color: rgba(28, 28, 28, 0.4);
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
   }
+  /* Custom select chevron inset 0.75rem from the right edge (matches px-3 left padding) */
+  .select-field {
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1rem;
+  }
 }

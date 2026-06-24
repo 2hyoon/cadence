@@ -24,6 +24,6 @@ Individuals who run their day from a task list and want repeating routines, brea
 - Schema migration tooling (new app — no legacy data to migrate).
 
 ## Design
-- Dark, minimal, tool-like (a dashboard used daily, not a marketing page).
-- Monochrome neutrals + a single accent color.
+- Warm light, minimal, tool-like (a dashboard used daily, not a marketing page).
+- Monochrome warm neutrals on an off-white canvas; semantic color reserved for state.
 - Keyboard-first interactions; responsive (sidebar collapses to bottom tabs on mobile).

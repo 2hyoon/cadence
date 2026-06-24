@@ -17,46 +17,49 @@
 | Background gradient orb (blur-3xl circle) | Decoration found on every AI landing page |
 
 ## Colors
+
+Warm light theme: an off-white canvas with dark warm-ink text. Set globally in `app/globals.css`.
+
 ### Background
 | Use | Value |
 |------|------|
-| Page | #0a0a0a |
-| Card | #141414 |
+| Page | #f7f4ed |
+| Card | #f7f4ed (border #eceae4) |
 
 ### Text
 | Use | Value |
 |------|------|
-| Primary text | text-white |
-| Body | text-neutral-300 |
-| Secondary | text-neutral-400 |
-| Disabled | text-neutral-500 |
+| Primary text | #1c1c1c |
+| Secondary | #5f5f5d |
+| Muted / Disabled | rgba(28,28,28,0.3) |
 
 ### Data/Semantic Colors
 | Use | Value |
 |------|------|
-| Accent (primary action, active view) | #f59e0b (amber) |
-| Overdue / Error | #ef4444 |
-| Completed / Success | #22c55e |
-| Neutral / Default | #525252 |
+| Primary action / active ink | #1c1c1c |
+| Active view background | rgba(28,28,28,0.06) |
+| Overdue / Error | #ef4444 (red-500) |
+| Focus ring | rgba(59,130,246,0.5) |
 
-> Single accent (amber). Due-date badges: overdue = red, today = amber, upcoming = neutral.
+> Monochrome warm ink; semantic color reserved for state. Due-date badges: overdue = red-500, today = #1c1c1c, upcoming = #5f5f5d. Completed tasks always render the date in #5f5f5d regardless of due status. Priority dots: high = red-500, medium = #1c1c1c, low = rgba(28,28,28,0.3).
 
 ## Components
 ### Card
 ```
-rounded-lg bg-[#141414] border border-neutral-800 p-4
+rounded-lg bg-[#f7f4ed] border border-[#eceae4] p-4
 ```
 
 ### Button
 ```
-Primary: rounded-lg bg-amber-500 text-black hover:bg-amber-400
-Text:    text-neutral-500 hover:text-neutral-300
+Primary: rounded-md bg-[#1c1c1c] text-[#fcfbf8] btn-inset   (see globals.css)
+Text:    text-[#5f5f5d] hover:text-[#1c1c1c]
 ```
 
 ### Input Field
 ```
-rounded-lg bg-neutral-900 border border-neutral-800 px-4 py-3 focus:border-neutral-600
+rounded-lg bg-[#fcfbf8] border border-[#eceae4] px-4 py-3 text-[#1c1c1c] placeholder-[#5f5f5d] input-ring
 ```
+> Near-white fill (#fcfbf8) reads as an interactive field against the beige canvas. Focus uses the `.input-ring` utility (blue ring) from `globals.css`.
 
 ## Layout
 - Full width: max-w-5xl content column.
@@ -67,9 +70,9 @@ rounded-lg bg-neutral-900 border border-neutral-800 px-4 py-3 focus:border-neutr
 ## Typography
 | Use | Style |
 |------|--------|
-| Page title | text-2xl font-semibold text-white |
-| Card title | text-sm font-medium text-neutral-300 |
-| Body | text-sm text-neutral-300 leading-relaxed |
+| Page title | text-2xl font-semibold text-[#1c1c1c] |
+| Card title | text-sm font-medium text-[#1c1c1c] |
+| Body | text-sm text-[#1c1c1c] leading-relaxed |
 
 ## Animation
 - Allowed: fade-in (0.2s), slide-up for Quick-Add / toast (0.2s).

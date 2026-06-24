@@ -185,13 +185,13 @@ export function TaskListContainer({ todos, today, hideAdd = false }: TaskListCon
           placeholder="Search..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="flex-1 min-w-0 rounded-lg bg-neutral-900 border border-neutral-800 px-3 py-2 text-sm text-neutral-300 placeholder-neutral-600 focus:border-neutral-600 focus:outline-none"
+          className="flex-1 min-w-0 rounded-lg bg-[#fcfbf8] border border-[#eceae4] px-3 py-2 text-sm text-[#1c1c1c] placeholder-[#5f5f5d] input-ring"
         />
         <select
           aria-label="Filter by priority"
           value={priorityFilter}
           onChange={(e) => setPriorityFilter(e.target.value as Priority | "")}
-          className="rounded-lg bg-neutral-900 border border-neutral-800 px-3 py-2 text-sm text-neutral-300 focus:border-neutral-600 focus:outline-none"
+          className="select-field rounded-lg bg-[#fcfbf8] border border-[#eceae4] pl-3 pr-9 py-2 text-sm text-[#1c1c1c] input-ring"
         >
           <option value="">All priorities</option>
           <option value="high">High</option>
@@ -202,7 +202,7 @@ export function TaskListContainer({ todos, today, hideAdd = false }: TaskListCon
           aria-label="Sort by"
           value={sortKey}
           onChange={(e) => setSortKey(e.target.value as SortKey)}
-          className="rounded-lg bg-neutral-900 border border-neutral-800 px-3 py-2 text-sm text-neutral-300 focus:border-neutral-600 focus:outline-none"
+          className="select-field rounded-lg bg-[#fcfbf8] border border-[#eceae4] pl-3 pr-9 py-2 text-sm text-[#1c1c1c] input-ring"
         >
           <option value="dueDate">Due date</option>
           <option value="priority">Priority</option>
@@ -211,7 +211,7 @@ export function TaskListContainer({ todos, today, hideAdd = false }: TaskListCon
         <button
           aria-label={sortDir === "asc" ? "Sort ascending" : "Sort descending"}
           onClick={() => setSortDir((d) => (d === "asc" ? "desc" : "asc"))}
-          className="rounded-lg bg-neutral-900 border border-neutral-800 px-3 py-2 text-sm text-neutral-400 hover:text-neutral-300 focus:outline-none"
+          className="rounded-lg bg-[#fcfbf8] border border-[#eceae4] px-3 py-2 text-sm text-[#5f5f5d] hover:text-[#1c1c1c] input-ring"
         >
           {sortDir === "asc" ? "↑" : "↓"}
         </button>
@@ -241,7 +241,7 @@ export function TaskListContainer({ todos, today, hideAdd = false }: TaskListCon
           onChange={(e) => setAddValue(e.target.value)}
           onKeyDown={handleAddKeyDown}
           disabled={addParsing}
-          className="w-full rounded-lg bg-neutral-900 border border-neutral-800 px-4 py-3 text-sm text-neutral-300 placeholder-neutral-600 focus:border-neutral-600 focus:outline-none disabled:opacity-50"
+          className="w-full rounded-lg bg-[#fcfbf8] border border-[#eceae4] px-4 py-3 text-sm text-[#1c1c1c] placeholder-[#5f5f5d] input-ring disabled:opacity-50"
         />
       )}
 
